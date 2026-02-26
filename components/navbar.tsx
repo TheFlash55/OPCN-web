@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { Bot } from "lucide-react";
@@ -7,14 +7,6 @@ import { useUIStore } from "@/store/ui";
 import { LanguageToggle } from "@/components/language-toggle";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 
 export function Navbar() {
   const locale = useUIStore((state) => state.locale);
@@ -29,36 +21,16 @@ export function Navbar() {
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex">
-          <Link className="text-sm text-muted-foreground transition hover:text-foreground" href="/ask">
-            {text.nav.ask}
-          </Link>
-          <Link className="text-sm text-muted-foreground transition hover:text-foreground" href="/market">
-            {text.nav.market}
-          </Link>
-          <Link className="text-sm text-muted-foreground transition hover:text-foreground" href="/bounties">
-            {text.nav.bounties}
-          </Link>
+          <Link className="text-sm text-muted-foreground transition hover:text-foreground" href="/ask">{text.nav.ask}</Link>
+          <Link className="text-sm text-muted-foreground transition hover:text-foreground" href="/market">{text.nav.market}</Link>
+          <Link className="text-sm text-muted-foreground transition hover:text-foreground" href="/bounties">{text.nav.bounties}</Link>
         </nav>
 
         <div className="flex items-center gap-2">
           <LanguageToggle />
           <ThemeToggle />
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button variant="ghost" className="hidden sm:inline-flex">
-                {text.nav.signIn}
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>{text.pages.signin}</DialogTitle>
-                <DialogDescription>Placeholder only. No auth logic implemented in this stage.</DialogDescription>
-              </DialogHeader>
-            </DialogContent>
-          </Dialog>
-          <Button asChild>
-            <Link href="/signup">{text.nav.signUp}</Link>
-          </Button>
+          <Button asChild variant="ghost" className="hidden sm:inline-flex"><Link href="/signin">{text.nav.signIn}</Link></Button>
+          <Button asChild><Link href="/signup">{text.nav.signUp}</Link></Button>
         </div>
       </div>
     </header>

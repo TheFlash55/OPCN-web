@@ -1,10 +1,10 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { t } from "@/lib/i18n";
 import { useUIStore } from "@/store/ui";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { AcquisitionPanel } from "@/components/AcquisitionPanel";
 
 export default function HomePage() {
   const locale = useUIStore((state) => state.locale);
@@ -25,14 +25,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      <Card className="surface transition hover:border-primary/50">
-        <CardHeader>
-          <CardTitle>{text.home.panel}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-sm text-muted-foreground">Reserved area for future right-top core module.</p>
-        </CardContent>
-      </Card>
+      <AcquisitionPanel />
     </section>
   );
 }
