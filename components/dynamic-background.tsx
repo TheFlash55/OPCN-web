@@ -1,10 +1,67 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+
 export function DynamicBackground() {
+  const rootRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+
+    let raf = 0;
+    let currentX = 0;
+    let currentY = 0;
+    let targetX = 0;
+    let targetY = 0;
+
+    const tick = () => {
+      currentX += (targetX - currentX) * 0.08;
+      currentY += (targetY - currentY) * 0.08;
+      root.style.setProperty("--mx", currentX.toFixed(4));
+      root.style.setProperty("--my", currentY.toFixed(4));
+      raf = window.requestAnimationFrame(tick);
+    };
+
+    const onMove = (e: MouseEvent) => {
+      const nx = e.clientX / window.innerWidth;
+      const ny = e.clientY / window.innerHeight;
+      targetX = (nx - 0.5) * 2;
+      targetY = (ny - 0.5) * 2;
+      root.style.setProperty("--spot-x", `${(nx * 100).toFixed(2)}%`);
+      root.style.setProperty("--spot-y", `${(ny * 100).toFixed(2)}%`);
+    };
+
+    const onLeave = () => {
+      targetX = 0;
+      targetY = 0;
+      root.style.setProperty("--spot-x", "50%");
+      root.style.setProperty("--spot-y", "38%");
+    };
+
+    root.style.setProperty("--mx", "0");
+    root.style.setProperty("--my", "0");
+    root.style.setProperty("--spot-x", "50%");
+    root.style.setProperty("--spot-y", "38%");
+
+    raf = window.requestAnimationFrame(tick);
+    window.addEventListener("mousemove", onMove, { passive: true });
+    window.addEventListener("mouseleave", onLeave);
+
+    return () => {
+      window.cancelAnimationFrame(raf);
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseleave", onLeave);
+    };
+  }, []);
+
   return (
-    <div aria-hidden className="dynamic-bg pointer-events-none fixed inset-0 z-0 overflow-hidden">
+    <div ref={rootRef} aria-hidden className="dynamic-bg pointer-events-none fixed inset-0 z-0 overflow-hidden">
       <div className="bg-glow" />
       <div className="bg-grid" />
       <div className="bg-lines" />
       <div className="bg-noise" />
+      <div className="bg-spotlight" />
 
       <svg className="bg-network" viewBox="0 0 1000 700" preserveAspectRatio="none">
         <path className="net-line line-a" d="M20 130 L180 95 L300 210 L420 160 L590 250 L780 180 L980 260" />

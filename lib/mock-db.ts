@@ -1,3 +1,4 @@
+import { redis } from "@/lib/redis";
 import type { Agent, AgentDraft, AskRequest, Bounty, Lead, Offer, User } from "@/types";
 
 type DB = {
@@ -9,7 +10,7 @@ type DB = {
   sessions: Record<string, string>;
 };
 
-const KEY = "__opcn_mock_db__";
+const DB_KEY = "opcn:db:v1";
 
 function uid(prefix: string) {
   return `${prefix}-${Math.random().toString(36).slice(2, 8)}`;
@@ -99,12 +100,23 @@ function seed(): DB {
   };
 }
 
-function db(): DB {
-  const g = globalThis as typeof globalThis & { [KEY]?: DB };
-  if (!g[KEY]) {
-    g[KEY] = seed();
-  }
-  return g[KEY] as DB;
+async function readDb() {
+  const existing = await redis.get<DB>(DB_KEY);
+  if (existing) return existing;
+
+  const seeded = seed();
+  await redis.set(DB_KEY, seeded);
+  return seeded;
+}
+
+async function writeDb(data: DB) {
+  await redis.set(DB_KEY, data);
+}
+
+export async function resetMockDb() {
+  const seeded = seed();
+  await writeDb(seeded);
+  return seeded;
 }
 
 export function getTokenFromRequest(req: Request) {
@@ -114,16 +126,16 @@ export function getTokenFromRequest(req: Request) {
   return xToken || null;
 }
 
-export function getUserByToken(token: string | null) {
+export async function getUserByToken(token: string | null) {
   if (!token) return null;
-  const store = db();
+  const store = await readDb();
   const userId = store.sessions[token];
   if (!userId) return null;
   return store.users.find((u) => u.id === userId) || null;
 }
 
-export function signupUser(input: { email: string; password: string; name?: string }) {
-  const store = db();
+export async function signupUser(input: { email: string; password: string; name?: string }) {
+  const store = await readDb();
   const existed = store.users.find((u) => u.email.toLowerCase() === input.email.toLowerCase());
   if (existed) return { error: "EMAIL_EXISTS" as const };
 
@@ -138,11 +150,12 @@ export function signupUser(input: { email: string; password: string; name?: stri
 
   const token = `token-${uid("sess")}`;
   store.sessions[token] = user.id;
+  await writeDb(store);
   return { user, token };
 }
 
-export function signinUser(input: { email: string; password: string }) {
-  const store = db();
+export async function signinUser(input: { email: string; password: string }) {
+  const store = await readDb();
   const user = store.users.find(
     (u) => u.email.toLowerCase() === input.email.toLowerCase() && u.password === input.password
   );
@@ -150,11 +163,12 @@ export function signinUser(input: { email: string; password: string }) {
 
   const token = `token-${uid("sess")}`;
   store.sessions[token] = user.id;
+  await writeDb(store);
   return { user, token };
 }
 
-export function upsertAgent(input: AgentDraft & { ownerId: string; slug?: string }) {
-  const store = db();
+export async function upsertAgent(input: AgentDraft & { ownerId: string; slug?: string }) {
+  const store = await readDb();
   const ts = nowIso();
   const slug = input.slug || slugify(input.displayName);
   const idx = store.agents.findIndex((a) => a.slug === slug);
@@ -172,6 +186,7 @@ export function upsertAgent(input: AgentDraft & { ownerId: string; slug?: string
       updatedAt: ts,
     };
     store.agents[idx] = next;
+    await writeDb(store);
     return next;
   }
 
@@ -190,11 +205,12 @@ export function upsertAgent(input: AgentDraft & { ownerId: string; slug?: string
     updatedAt: ts,
   };
   store.agents.push(created);
+  await writeDb(store);
   return created;
 }
 
-export function publishAgent(input: { slug?: string; inviteCode?: string; ownerId?: string }) {
-  const store = db();
+export async function publishAgent(input: { slug?: string; inviteCode?: string; ownerId?: string }) {
+  const store = await readDb();
   let agent: Agent | undefined;
 
   if (input.slug) {
@@ -207,7 +223,7 @@ export function publishAgent(input: { slug?: string; inviteCode?: string; ownerI
 
   if (!agent) {
     const ownerId = input.ownerId || "user-demo";
-    agent = upsertAgent({
+    agent = await upsertAgent({
       ownerId,
       displayName: "New Agent",
       headline: "你的新 Agent 页面",
@@ -215,22 +231,34 @@ export function publishAgent(input: { slug?: string; inviteCode?: string; ownerI
       offers: defaultOffers(),
       deliveryNote: "待完善",
     });
+  } else {
+    agent.published = true;
+    agent.updatedAt = nowIso();
+    await writeDb(store);
   }
 
   agent.published = true;
   agent.updatedAt = nowIso();
+
+  const nextStore = await readDb();
+  const agentIdx = nextStore.agents.findIndex((a) => a.slug === agent!.slug);
+  if (agentIdx >= 0) {
+    nextStore.agents[agentIdx] = agent;
+    await writeDb(nextStore);
+  }
 
   const inviteCode = input.inviteCode || "BETA-0000";
   const shareUrl = `/agent/${agent.slug}?ref=${inviteCode}`;
   return { slug: agent.slug, shareUrl, agent };
 }
 
-export function listAgents(query: { q?: string; tag?: string; sort?: string }) {
+export async function listAgents(query: { q?: string; tag?: string; sort?: string }) {
   const q = (query.q || "").trim().toLowerCase();
   const tag = (query.tag || "").trim().toLowerCase();
   const sort = query.sort || "recommended";
 
-  let rows = db().agents.filter((a) => a.published);
+  const store = await readDb();
+  let rows = store.agents.filter((a) => a.published);
 
   if (q) {
     rows = rows.filter((a) => {
@@ -263,11 +291,12 @@ export function listAgents(query: { q?: string; tag?: string; sort?: string }) {
   return rows;
 }
 
-export function getAgentBySlug(slug: string) {
-  return db().agents.find((a) => a.slug === slug) || null;
+export async function getAgentBySlug(slug: string) {
+  const store = await readDb();
+  return store.agents.find((a) => a.slug === slug) || null;
 }
 
-export function createLead(input: {
+export async function createLead(input: {
   agentSlug: string;
   name: string;
   contact: string;
@@ -275,7 +304,7 @@ export function createLead(input: {
   urgency: string;
   desc: string;
 }) {
-  const store = db();
+  const store = await readDb();
   const agent = store.agents.find((a) => a.slug === input.agentSlug && a.published);
   if (!agent) return { error: "AGENT_NOT_FOUND" as const };
 
@@ -295,23 +324,26 @@ export function createLead(input: {
   agent.calls += 1;
   agent.updatedAt = nowIso();
   store.leads.push(lead);
+  await writeDb(store);
   return { lead };
 }
 
-export function listLeadsByOwner(ownerId: string, status?: string) {
-  let rows = db().leads.filter((l) => l.ownerId === ownerId);
+export async function listLeadsByOwner(ownerId: string, status?: string) {
+  const store = await readDb();
+  let rows = store.leads.filter((l) => l.ownerId === ownerId);
   if (status && ["new", "processing", "closed"].includes(status)) {
     rows = rows.filter((l) => l.status === status);
   }
   return [...rows].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 }
 
-export function countLeads(ownerId?: string) {
-  if (!ownerId) return db().leads.length;
-  return db().leads.filter((l) => l.ownerId === ownerId).length;
+export async function countLeads(ownerId?: string) {
+  const store = await readDb();
+  if (!ownerId) return store.leads.length;
+  return store.leads.filter((l) => l.ownerId === ownerId).length;
 }
 
-export function createAskRequest(input: {
+export async function createAskRequest(input: {
   title: string;
   desc: string;
   budget: string;
@@ -319,7 +351,7 @@ export function createAskRequest(input: {
   tags: string[];
   contact: string;
 }) {
-  const store = db();
+  const store = await readDb();
   const request: AskRequest = {
     id: uid("ask"),
     title: input.title,
@@ -331,27 +363,34 @@ export function createAskRequest(input: {
     createdAt: nowIso(),
   };
   store.askRequests.push(request);
+  await writeDb(store);
   return request;
 }
 
-export function listAskRequests() {
-  return [...db().askRequests].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+export async function listAskRequests() {
+  const store = await readDb();
+  return [...store.askRequests].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 }
 
-export function listBounties() {
-  return [...db().bounties].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+export async function listBounties() {
+  const store = await readDb();
+  return [...store.bounties].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 }
 
-export function getBountyById(id: string) {
-  return db().bounties.find((b) => b.id === id) || null;
+export async function getBountyById(id: string) {
+  const store = await readDb();
+  return store.bounties.find((b) => b.id === id) || null;
 }
 
-export function claimBounty(input: { id: string; userId: string }) {
-  const bounty = getBountyById(input.id);
+export async function claimBounty(input: { id: string; userId: string }) {
+  const store = await readDb();
+  const bounty = store.bounties.find((b) => b.id === input.id);
   if (!bounty) return { error: "NOT_FOUND" as const };
   if (bounty.status !== "open") return { error: "ALREADY_CLAIMED" as const };
 
   bounty.status = "claimed";
   bounty.claimerId = input.userId;
+  await writeDb(store);
   return { bounty };
 }
+

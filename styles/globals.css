@@ -60,6 +60,10 @@ body {
 }
 
 .dynamic-bg {
+  --mx: 0;
+  --my: 0;
+  --spot-x: 50%;
+  --spot-y: 38%;
   background:
     radial-gradient(circle at 15% 18%, rgba(39, 162, 255, 0.13), transparent 35%),
     radial-gradient(circle at 82% 28%, rgba(16, 118, 255, 0.14), transparent 34%),
@@ -191,4 +195,36 @@ body {
 @keyframes node-pulse {
   0%, 100% { opacity: 0.45; transform: scale(1); }
   50% { opacity: 1; transform: scale(1.12); }
+}
+.bg-spotlight {
+  position: absolute;
+  inset: -4%;
+  background:
+    radial-gradient(circle at var(--spot-x) var(--spot-y), rgba(118, 206, 255, 0.2), transparent 14%),
+    radial-gradient(circle at var(--spot-x) var(--spot-y), rgba(47, 126, 255, 0.12), transparent 24%);
+  mix-blend-mode: screen;
+  opacity: 0.58;
+  transform: translate3d(calc(var(--mx) * 5px), calc(var(--my) * 5px), 0);
+  transition: opacity 240ms ease;
+}
+
+.bg-network {
+  transform: translate3d(calc(var(--mx) * 14px), calc(var(--my) * 14px), 0);
+}
+
+.bg-sparks {
+  transform: translate3d(calc(var(--mx) * 18px), calc(var(--my) * 18px), 0);
+}
+
+.bg-grid {
+  transform: translate3d(calc(var(--mx) * 6px), calc(var(--my) * 6px), 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-spotlight,
+  .bg-network,
+  .bg-sparks,
+  .bg-grid {
+    transform: none;
+  }
 }

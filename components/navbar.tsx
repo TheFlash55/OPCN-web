@@ -7,6 +7,7 @@ import { useUIStore } from "@/store/ui";
 import { LanguageToggle } from "@/components/language-toggle";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
+import { WalletMenu } from "@/components/wallet-menu";
 
 export function Navbar() {
   const locale = useUIStore((state) => state.locale);
@@ -29,6 +30,7 @@ export function Navbar() {
         <div className="flex items-center gap-2">
           <LanguageToggle />
           <ThemeToggle />
+          <WalletMenu />
           <Button asChild variant="ghost" className="hidden sm:inline-flex"><Link href="/signin">{text.nav.signIn}</Link></Button>
           <Button asChild><Link href="/signup">{text.nav.signUp}</Link></Button>
         </div>

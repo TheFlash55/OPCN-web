@@ -1,19 +1,21 @@
 import { NextResponse } from "next/server";
 import { claimBounty, getTokenFromRequest, getUserByToken } from "@/lib/mock-db";
 
+export const dynamic = "force-dynamic";
+
 type Params = {
   params: Promise<{ id: string }>;
 };
 
 export async function POST(req: Request, { params }: Params) {
   const token = getTokenFromRequest(req);
-  const user = getUserByToken(token);
+  const user = await getUserByToken(token);
   if (!user) {
     return NextResponse.json({ message: "unauthorized" }, { status: 401 });
   }
 
   const { id } = await params;
-  const result = claimBounty({ id, userId: user.id });
+  const result = await claimBounty({ id, userId: user.id });
 
   if ("error" in result) {
     if (result.error === "NOT_FOUND") {

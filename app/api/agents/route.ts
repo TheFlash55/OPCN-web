@@ -2,9 +2,11 @@ import { NextResponse } from "next/server";
 import { getTokenFromRequest, getUserByToken, listAgents, upsertAgent } from "@/lib/mock-db";
 import type { AgentDraft } from "@/types";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
   const token = getTokenFromRequest(req);
-  const user = getUserByToken(token);
+  const user = await getUserByToken(token);
   const ownerId = user?.id || "user-demo";
 
   const body = (await req.json().catch(() => ({}))) as Partial<AgentDraft>;
@@ -12,7 +14,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: "missing required fields" }, { status: 400 });
   }
 
-  const agent = upsertAgent({
+  const agent = await upsertAgent({
     ownerId,
     slug: body.slug,
     displayName: body.displayName,
@@ -31,6 +33,6 @@ export async function GET(req: Request) {
   const tag = searchParams.get("tag") || undefined;
   const sort = searchParams.get("sort") || undefined;
 
-  const agents = listAgents({ q, tag, sort });
+  const agents = await listAgents({ q, tag, sort });
   return NextResponse.json({ agents });
 }

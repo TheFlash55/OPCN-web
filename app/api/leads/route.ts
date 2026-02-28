@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { countLeads, createLead, getTokenFromRequest, getUserByToken, listLeadsByOwner } from "@/lib/mock-db";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
   const body = (await req.json().catch(() => ({}))) as {
     agentSlug?: string;
@@ -15,7 +17,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: "missing fields" }, { status: 400 });
   }
 
-  const result = createLead({
+  const result = await createLead({
     agentSlug: body.agentSlug,
     name: body.name,
     contact: body.contact,
@@ -33,13 +35,13 @@ export async function POST(req: Request) {
 
 export async function GET(req: Request) {
   const token = getTokenFromRequest(req);
-  const user = getUserByToken(token);
+  const user = await getUserByToken(token);
   if (!user) {
     return NextResponse.json({ message: "unauthorized" }, { status: 401 });
   }
 
   const { searchParams } = new URL(req.url);
   const status = searchParams.get("status") || undefined;
-  const leads = listLeadsByOwner(user.id, status);
-  return NextResponse.json({ leads, count: countLeads(user.id) });
+  const leads = await listLeadsByOwner(user.id, status);
+  return NextResponse.json({ leads, count: await countLeads(user.id) });
 }

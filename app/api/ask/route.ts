@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { createAskRequest, listAskRequests } from "@/lib/mock-db";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
   const body = (await req.json().catch(() => ({}))) as {
     title?: string;
@@ -15,7 +17,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: "missing required fields" }, { status: 400 });
   }
 
-  const request = createAskRequest({
+  const request = await createAskRequest({
     title: body.title,
     desc: body.desc,
     budget: body.budget,
@@ -28,5 +30,5 @@ export async function POST(req: Request) {
 }
 
 export async function GET() {
-  return NextResponse.json({ requests: listAskRequests() });
+  return NextResponse.json({ requests: await listAskRequests() });
 }
