@@ -7,6 +7,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 
+type SignUpResponse = {
+  message?: string;
+  token?: string;
+};
+
 export default function SignUpPage() {
   const router = useRouter();
   const { toast } = useToast();
@@ -23,14 +28,25 @@ export default function SignUpPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
       });
-      const data = await res.json();
+
+      const raw = await res.text();
+      const data: SignUpResponse = raw ? JSON.parse(raw) : {};
+
       if (!res.ok) {
-        toast(data.message || "注册失败");
+        toast(data.message || "Sign up failed");
         return;
       }
+
+      if (!data.token) {
+        toast("Sign up failed");
+        return;
+      }
+
       window.localStorage.setItem("opcn-token", data.token);
-      toast("注册成功");
+      toast("Sign up success");
       router.push("/onboarding");
+    } catch {
+      toast("Sign up failed");
     } finally {
       setLoading(false);
     }
@@ -38,12 +54,16 @@ export default function SignUpPage() {
 
   return (
     <Card className="mx-auto max-w-md">
-      <CardHeader><CardTitle>Sign up</CardTitle></CardHeader>
+      <CardHeader>
+        <CardTitle>Sign up</CardTitle>
+      </CardHeader>
       <CardContent className="space-y-3">
         <Input placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
         <Input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
         <Input placeholder="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        <Button className="w-full" onClick={submit} disabled={loading}>{loading ? "Signing up..." : "Sign up"}</Button>
+        <Button className="w-full" onClick={submit} disabled={loading}>
+          {loading ? "Signing up..." : "Sign up"}
+        </Button>
       </CardContent>
     </Card>
   );

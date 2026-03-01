@@ -50,6 +50,7 @@ export function AcquisitionPanel() {
   const setHasDraftAgent = useAcquisitionStore((s) => s.setHasDraftAgent);
   const setPublished = useAcquisitionStore((s) => s.setPublished);
   const setLeadCount = useAcquisitionStore((s) => s.setLeadCount);
+  const resetAcquisition = useAcquisitionStore((s) => s.resetAcquisition);
 
   const bindings = useOnchainStore((s) => s.bindings);
   const credentials = useOnchainStore((s) => s.credentials);
@@ -73,6 +74,14 @@ export function AcquisitionPanel() {
       // noop
     }
   };
+
+  useEffect(() => {
+    // Avoid stale "already created" state for anonymous sessions.
+    const token = window.localStorage.getItem("opcn-token");
+    if (!token) {
+      resetAcquisition();
+    }
+  }, [resetAcquisition]);
 
   useEffect(() => {
     refreshLeadCount();
