@@ -104,6 +104,4 @@ vercel --prod
 
 ## 许可信息
 
-当前仓库未包含 `LICENSE` 文件。默认视为保留所有权利（All Rights Reserved）。
-
-如果你计划开源发布，建议补充明确的许可证（如 MIT/Apache-2.0）。
+本项目采用 **MIT License** 开源发布，详细条款见根目录 [LICENSE](LICENSE)。
