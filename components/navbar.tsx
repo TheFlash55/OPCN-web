@@ -22,17 +22,42 @@ export function Navbar() {
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex">
-          <Link className="text-sm text-muted-foreground transition hover:text-foreground" href="/ask">{text.nav.ask}</Link>
-          <Link className="text-sm text-muted-foreground transition hover:text-foreground" href="/market">{text.nav.market}</Link>
-          <Link className="text-sm text-muted-foreground transition hover:text-foreground" href="/bounties">{text.nav.bounties}</Link>
+          <Link
+            className="text-sm text-muted-foreground transition hover:text-foreground"
+            href="/services"
+          >
+            {text.nav.services}
+          </Link>
+          <Link
+            className="text-sm text-muted-foreground transition hover:text-foreground"
+            href="/cases"
+          >
+            {text.nav.cases}
+          </Link>
+          <Link
+            className="text-sm text-muted-foreground transition hover:text-foreground"
+            href="/about"
+          >
+            {text.nav.about}
+          </Link>
+          <Link
+            className="text-sm text-muted-foreground transition hover:text-foreground"
+            href="/contact"
+          >
+            {text.nav.contact}
+          </Link>
         </nav>
 
         <div className="flex items-center gap-2">
           <LanguageToggle />
           <ThemeToggle />
           <WalletMenu />
-          <Button asChild variant="ghost" className="hidden sm:inline-flex"><Link href="/signin">{text.nav.signIn}</Link></Button>
-          <Button asChild><Link href="/signup">{text.nav.signUp}</Link></Button>
+          <Button asChild variant="ghost" className="hidden sm:inline-flex">
+            <Link href="/signin">{text.nav.signIn}</Link>
+          </Button>
+          <Button asChild>
+            <Link href="/signup">{text.nav.signUp}</Link>
+          </Button>
         </div>
       </div>
     </header>

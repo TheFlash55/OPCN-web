@@ -3,10 +3,21 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Copy, ExternalLink, ShieldCheck, Sparkles, Wallet2 } from "lucide-react";
+import {
+  Copy,
+  ExternalLink,
+  ShieldCheck,
+  Sparkles,
+  Wallet2,
+  Database,
+  TrendingUp,
+  Lightbulb,
+} from "lucide-react";
 import { useAccount, useConnect } from "wagmi";
 import { useAcquisitionStore } from "@/store/acquisition";
 import { useOnchainStore } from "@/store/onchain";
+import { useUIStore } from "@/store/ui";
+import { t } from "@/lib/i18n";
 import { track } from "@/lib/track";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -41,6 +52,9 @@ export function AcquisitionPanel() {
   const { toast } = useToast();
   const { address, isConnected } = useAccount();
   const { connectors, connect } = useConnect();
+  const locale = useUIStore((state) => state.locale);
+  const text = t(locale);
+  const acquisitionText = text.acquisition;
 
   const hasDraftAgent = useAcquisitionStore((s) => s.hasDraftAgent);
   const publishedSlug = useAcquisitionStore((s) => s.publishedSlug);
@@ -55,7 +69,9 @@ export function AcquisitionPanel() {
   const bindings = useOnchainStore((s) => s.bindings);
   const credentials = useOnchainStore((s) => s.credentials);
   const verifiedShareEnabled = useOnchainStore((s) => s.verifiedShareEnabled);
-  const setVerifiedShareEnabled = useOnchainStore((s) => s.setVerifiedShareEnabled);
+  const setVerifiedShareEnabled = useOnchainStore(
+    (s) => s.setVerifiedShareEnabled,
+  );
 
   const [publishing, setPublishing] = useState(false);
   const [openOnchain, setOpenOnchain] = useState(false);
@@ -92,25 +108,37 @@ export function AcquisitionPanel() {
   }, []);
 
   const promos = useMemo(() => {
-    return buildPromos(shareUrl ?? `/agent/${publishedSlug ?? "demo"}?ref=${inviteCode}`);
+    return buildPromos(
+      shareUrl ?? `/agent/${publishedSlug ?? "demo"}?ref=${inviteCode}`,
+    );
   }, [shareUrl, publishedSlug, inviteCode]);
 
   const binding = useMemo(() => {
     if (!publishedSlug) return undefined;
-    return bindings.find((b) => b.agentSlug === publishedSlug && (!address || b.address.toLowerCase() === address.toLowerCase()));
+    return bindings.find(
+      (b) =>
+        b.agentSlug === publishedSlug &&
+        (!address || b.address.toLowerCase() === address.toLowerCase()),
+    );
   }, [bindings, publishedSlug, address]);
 
   const credential = useMemo(() => {
     if (!address) return undefined;
-    return credentials.find((c) => c.address.toLowerCase() === address.toLowerCase());
+    return credentials.find(
+      (c) => c.address.toLowerCase() === address.toLowerCase(),
+    );
   }, [credentials, address]);
 
-  const verified = Boolean(binding && binding.status === "verified" && credential);
+  const verified = Boolean(
+    binding && binding.status === "verified" && credential,
+  );
 
   const finalShareUrl = useMemo(() => {
     if (!shareUrl) return "";
     if (!verified || !verifiedShareEnabled) return shareUrl;
-    return shareUrl.includes("?") ? `${shareUrl}&verified=1` : `${shareUrl}?verified=1`;
+    return shareUrl.includes("?")
+      ? `${shareUrl}&verified=1`
+      : `${shareUrl}?verified=1`;
   }, [shareUrl, verified, verifiedShareEnabled]);
 
   const handleStartDraft = () => {
@@ -163,7 +191,9 @@ export function AcquisitionPanel() {
             </span>
           )}
         </div>
-        <p className="text-sm text-muted-foreground">三步把你的 Agent 变成可分享的获客页</p>
+        <p className="text-sm text-muted-foreground">
+          三步把你的 Agent 变成可分享的获客页
+        </p>
       </CardHeader>
 
       <CardContent className="space-y-4 pt-4">
@@ -176,7 +206,9 @@ export function AcquisitionPanel() {
             <p className="pl-9 text-sm text-emerald-400">✅ 已创建</p>
           ) : (
             <div className="pl-9">
-              <Button size="sm" onClick={handleStartDraft}>开始创建</Button>
+              <Button size="sm" onClick={handleStartDraft}>
+                开始创建
+              </Button>
             </div>
           )}
         </div>
@@ -193,11 +225,18 @@ export function AcquisitionPanel() {
                 <button
                   aria-label="复制分享链接"
                   className="ml-3 opacity-80 transition hover:opacity-100"
-                  onClick={() => handleCopy(finalShareUrl || shareUrl, "share_copied")}
+                  onClick={() =>
+                    handleCopy(finalShareUrl || shareUrl, "share_copied")
+                  }
                 >
                   <Copy className="h-4 w-4" />
                 </button>
               </div>
+              <p className="text-xs text-muted-foreground bg-muted/50 p-2 rounded">
+                <TrendingUp className="inline h-3 w-3 mr-1" />
+                {acquisitionText?.step2DataService ||
+                  "可嵌入数据洞察看板：行业趋势报告、竞品分析摘要，吸引 B/G 端客户"}
+              </p>
               {verified && (
                 <label className="inline-flex items-center gap-2 text-xs text-muted-foreground">
                   <input
@@ -210,10 +249,15 @@ export function AcquisitionPanel() {
               )}
             </div>
           ) : (
-            <div className="pl-9">
+            <div className="pl-9 space-y-2">
               <Button size="sm" onClick={handlePublish} disabled={publishing}>
                 {publishing ? "发布中..." : "发布"}
               </Button>
+              <p className="text-xs text-muted-foreground">
+                <TrendingUp className="inline h-3 w-3 mr-1" />
+                {acquisitionText?.step2DataService ||
+                  "可嵌入数据洞察看板：行业趋势报告、竞品分析摘要，吸引 B/G 端客户"}
+              </p>
             </div>
           )}
         </div>
@@ -227,7 +271,13 @@ export function AcquisitionPanel() {
           <div className="space-y-2 pl-9">
             <Dialog>
               <DialogTrigger asChild>
-                <Button size="sm" variant="secondary" onClick={() => track("promo_generated", { shareUrl: shareUrl ?? null })}>
+                <Button
+                  size="sm"
+                  variant="secondary"
+                  onClick={() =>
+                    track("promo_generated", { shareUrl: shareUrl ?? null })
+                  }
+                >
                   <Sparkles className="mr-2 h-4 w-4" />
                   生成投放素材
                 </Button>
@@ -243,14 +293,24 @@ export function AcquisitionPanel() {
                     { key: "朋友圈", value: promos.moments },
                     { key: "私聊", value: promos.dm },
                   ].map((item) => (
-                    <div key={item.key} className="rounded-lg border border-border p-3">
+                    <div
+                      key={item.key}
+                      className="rounded-lg border border-border p-3"
+                    >
                       <div className="mb-2 flex items-center justify-between">
                         <p className="text-sm font-medium">{item.key}</p>
-                        <Button size="sm" variant="ghost" onClick={() => handleCopy(item.value, "share_copied")}>
-                          <Copy className="mr-1 h-4 w-4" />复制
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => handleCopy(item.value, "share_copied")}
+                        >
+                          <Copy className="mr-1 h-4 w-4" />
+                          复制
                         </Button>
                       </div>
-                      <p className="text-sm text-muted-foreground">{item.value}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {item.value}
+                      </p>
                     </div>
                   ))}
                 </div>
@@ -268,7 +328,10 @@ export function AcquisitionPanel() {
             {publishedSlug && (
               <p className="text-xs text-muted-foreground">
                 已发布页面：
-                <Link href={`/agent/${publishedSlug}`} className="underline underline-offset-2">
+                <Link
+                  href={`/agent/${publishedSlug}`}
+                  className="underline underline-offset-2"
+                >
                   /agent/{publishedSlug}
                 </Link>
               </p>
@@ -283,7 +346,9 @@ export function AcquisitionPanel() {
             type="button"
           >
             <span className="font-medium">链上认证（推荐）</span>
-            <span className="text-xs text-muted-foreground">{openOnchain ? "收起" : "展开"}</span>
+            <span className="text-xs text-muted-foreground">
+              {openOnchain ? "收起" : "展开"}
+            </span>
           </button>
 
           {openOnchain && (
@@ -302,7 +367,10 @@ export function AcquisitionPanel() {
                         className="h-8 px-2.5 text-xs"
                         onClick={() => {
                           connect({ connector: c });
-                          track("wallet_connected", { connector: c.name, source: "acquisition_panel" });
+                          track("wallet_connected", {
+                            connector: c.name,
+                            source: "acquisition_panel",
+                          });
                         }}
                       >
                         <Wallet2 className="mr-1 h-3 w-3" />
@@ -316,18 +384,44 @@ export function AcquisitionPanel() {
               <div className="flex items-center justify-between rounded-md border border-border p-2">
                 <span>Sign Bind</span>
                 <Button size="sm" variant="outline" asChild>
-                  <Link href={`/onchain${publishedSlug ? `?slug=${publishedSlug}` : ""}`}>{binding ? "已绑定" : "去绑定"}</Link>
+                  <Link
+                    href={`/onchain${publishedSlug ? `?slug=${publishedSlug}` : ""}`}
+                  >
+                    {binding ? "已绑定" : "去绑定"}
+                  </Link>
                 </Button>
               </div>
 
               <div className="flex items-center justify-between rounded-md border border-border p-2">
                 <span>Mint Credential</span>
                 <Button size="sm" variant="outline" asChild>
-                  <Link href="/onchain">{credential ? `已领取 #${credential.tokenId}` : "去领取"}</Link>
+                  <Link href="/onchain">
+                    {credential ? `已领取 #${credential.tokenId}` : "去领取"}
+                  </Link>
                 </Button>
               </div>
             </div>
           )}
+        </div>
+
+        {/* Data Service Case Studies */}
+        <div className="rounded-lg border border-primary/30 bg-primary/5 p-4">
+          <div className="flex items-center gap-2 mb-2">
+            <Database className="h-4 w-4 text-primary" />
+            <span className="font-medium text-sm">
+              {acquisitionText?.caseStudyTitle || "数据服务案例"}
+            </span>
+          </div>
+          <p className="text-xs text-muted-foreground mb-3">
+            {acquisitionText?.caseStudyDesc ||
+              "某 OPC 用 Agent 网络实现数据自动化，效率提升 300%"}
+          </p>
+          <Button asChild size="sm" variant="outline" className="w-full">
+            <Link href="/services">
+              {acquisitionText?.viewCases || "查看案例"}
+              <ExternalLink className="ml-2 h-3 w-3" />
+            </Link>
+          </Button>
         </div>
       </CardContent>
     </Card>
