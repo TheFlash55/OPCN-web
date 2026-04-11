@@ -99,50 +99,33 @@ export default function CasesPage() {
                 label: "库存优化",
                 desc: "基于趋势预测，减少滞销库存",
               },
-              {
-                value: "5min",
-                label: "预警响应",
-                desc: "竞品价格变动5分钟内推送通知",
-              },
-            ],
-          },
-          tech: {
-            title: "使用技术",
-            items: [
-              "Scrapy + Playwright",
-              "Pandas + Polars",
-              "PostgreSQL + TimescaleDB",
-              "Streamlit 报告看板",
-              "企业微信机器人推送",
             ],
           },
           testimonial: {
-            title: "客户反馈",
-            quote:
-              "以前每天早上第一件事就是挨个打开竞品页面查价格，现在只需要看一眼手机推送。上个月竞品突然降价，我们在10分钟内就跟进了，避免了销量大幅下滑。",
-            author: "— 张先生，OPC创始人",
+            text: "这个系统让我从繁杂的手动监控中解放出来，现在我能专注于选品和营销策略。ROI在第一个月就回本了。",
+            author: "OPC 创始人",
           },
-        },
-        cta: {
-          title: "想获得同样的效果？",
-          subtitle: "我们为您提供定制化的数据解决方案",
-          button: "预约免费咨询",
+          cta: {
+            title: "想获得类似的成果？",
+            desc: "每个 OPC 的需求都不同，让我们聊聊您的具体情况",
+            button: "预约免费咨询",
+          },
         },
       }
     : {
         title: "Case Studies",
         subtitle:
-          "Real client cases showcasing the complete flow from data collection to business decisions",
+          "Real customer cases showing the complete flow from data collection to business decisions",
         case: {
           client: "Cross-border E-commerce OPC",
           industry: "E-commerce / 3C Digital",
           challenge: {
-            title: "Challenge",
+            title: "Challenges",
             items: [
-              "Manually monitoring 5 major competitors' prices, spending 2-3 hours daily",
-              "Missing competitor promotions led to 20% sales decline",
-              "Unable to detect market trends early, causing inventory overstock",
-              "No systematic competitor data, pricing decisions based on intuition",
+              "Manually monitoring 5 competitors' prices, 2-3 hours daily",
+              "Missing competitor promotions, 20% sales drop",
+              "Unable to spot market trends, serious inventory backlog",
+              "No systematic competitor data, pricing by intuition",
             ],
           },
           solution: {
@@ -151,11 +134,11 @@ export default function CasesPage() {
               {
                 icon: Database,
                 title: "Data Collection",
-                desc: "Deployed crawlers to monitor 15 competitor SKUs across Amazon, Taobao, JD platforms",
+                desc: "Deployed crawlers to monitor 15 competitor SKUs across 5 platforms",
                 details: [
-                  "Price, inventory, promo info collected hourly",
+                  "Hourly collection of price, inventory, promotion info",
                   "Review sentiment analysis to extract pain points",
-                  "Playwright for rendering to capture dynamic content",
+                  "Playwright for dynamic content rendering",
                 ],
               },
               {
@@ -163,7 +146,7 @@ export default function CasesPage() {
                 title: "Data Processing",
                 desc: "Cleaned and structured data, built competitor price database",
                 details: [
-                  "Automatic anomaly detection and filtering",
+                  "Automatic outlier detection and filtering",
                   "Price trend calculation (daily/weekly/monthly)",
                   "Auto-classification of promotion types",
                 ],
@@ -171,11 +154,11 @@ export default function CasesPage() {
               {
                 icon: FileText,
                 title: "Insight Reports",
-                desc: "Auto-generated competitor monitoring reports daily",
+                desc: "Automated daily competitor monitoring reports",
                 details: [
-                  "Price drop alerts (>5% change triggers notification)",
-                  "Promotion timing analysis with recommendations",
-                  "Market share estimation and trend forecasting",
+                  "Price drop alerts (notify when >5% decrease)",
+                  "Promotion timing analysis",
+                  "Market share estimation and trend prediction",
                 ],
               },
             ],
@@ -190,205 +173,162 @@ export default function CasesPage() {
               },
               {
                 value: "25%",
-                label: "Sales Boost",
-                desc: "Timely promotion follow-up, capturing sales opportunities",
+                label: "Sales Increase",
+                desc: "Timely promotion strategy follow-up",
               },
               {
                 value: "30%",
-                label: "Inventory Optimized",
-                desc: "Reduced overstock based on trend predictions",
+                label: "Inventory Optimization",
+                desc: "Reduced dead stock based on trend prediction",
               },
-              {
-                value: "5min",
-                label: "Alert Response",
-                desc: "Competitor price changes notified within 5 minutes",
-              },
-            ],
-          },
-          tech: {
-            title: "Technologies Used",
-            items: [
-              "Scrapy + Playwright",
-              "Pandas + Polars",
-              "PostgreSQL + TimescaleDB",
-              "Streamlit Dashboard",
-              "WeChat Work Bot Push",
             ],
           },
           testimonial: {
-            title: "Testimonial",
-            quote:
-              "I used to open every competitor's page every morning to check prices. Now I just glance at my phone notifications. Last month when a competitor suddenly dropped prices, we responded within 10 minutes and avoided a major sales drop.",
-            author: "— Mr. Zhang, OPC Founder",
+            text: "This system freed me from tedious manual monitoring. Now I can focus on product selection and marketing strategy. ROI paid off in the first month.",
+            author: "OPC Founder",
           },
-        },
-        cta: {
-          title: "Want similar results?",
-          subtitle: "We provide customized data solutions for your business",
-          button: "Book Free Consultation",
+          cta: {
+            title: "Want similar results?",
+            desc: "Every OPC's needs are different. Let's talk about your specific situation",
+            button: "Book Free Consultation",
+          },
         },
       };
 
+  const { case: caseData } = content;
+
   return (
-    <div className="space-y-8">
-      {/* Hero */}
+    <div className="space-y-8 min-h-screen">
       <section className="text-center space-y-4 py-8">
-        <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
+        <h1 className="text-3xl sm:text-4xl font-bold text-white">
           {content.title}
         </h1>
-        <p className="max-w-2xl mx-auto text-muted-foreground text-lg">
-          {content.subtitle}
-        </p>
+        <p className="text-zinc-400 max-w-2xl mx-auto">{content.subtitle}</p>
       </section>
 
-      {/* Main Case Study */}
-      <Card className="border-primary/20">
-        <CardHeader className="border-b border-border/50">
-          <div className="flex items-center gap-3 mb-2">
-            <ShoppingCart className="h-6 w-6 text-primary" />
-            <Badge variant="secondary">{content.case.industry}</Badge>
+      <Card className="bg-zinc-900/50 border-zinc-800/50">
+        <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+          <div>
+            <div className="flex items-center gap-2">
+              <ShoppingCart className="h-5 w-5 text-indigo-400" />
+              <CardTitle className="text-white">{caseData.client}</CardTitle>
+            </div>
+            <CardDescription className="text-zinc-400">
+              {caseData.industry}
+            </CardDescription>
           </div>
-          <CardTitle className="text-2xl">{content.case.client}</CardTitle>
-          <CardDescription>
-            {isZh
-              ? "竞品价格监控与促销预警系统"
-              : "Competitor Price Monitoring & Promotion Alert System"}
-          </CardDescription>
+          <Badge className="w-fit bg-indigo-500/10 text-indigo-400 border-indigo-500/20">
+            Enterprise
+          </Badge>
         </CardHeader>
-        <CardContent className="space-y-8 pt-6">
-          {/* Challenge */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <TrendingDown className="h-5 w-5 text-red-500" />
-              {content.case.challenge.title}
+
+        <CardContent className="space-y-8">
+          <div className="rounded-xl bg-zinc-800/50 p-6 border border-zinc-700/50">
+            <h3 className="font-semibold text-white mb-4 flex items-center gap-2">
+              <TrendingDown className="h-4 w-4 text-red-400" />
+              {caseData.challenge.title}
             </h3>
-            <div className="grid gap-3 md:grid-cols-2">
-              {content.case.challenge.items.map((item, idx) => (
-                <div
+            <ul className="space-y-2">
+              {caseData.challenge.items.map((item, idx) => (
+                <li
                   key={idx}
-                  className="flex items-start gap-2 p-3 rounded-lg bg-red-500/5 border border-red-500/10"
+                  className="flex items-start gap-2 text-sm text-zinc-400"
                 >
-                  <span className="text-red-500 mt-0.5">•</span>
-                  <span className="text-sm">{item}</span>
-                </div>
+                  <span className="text-red-400 mt-1">•</span>
+                  <span>{item}</span>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
 
-          {/* Solution Steps */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <TrendingUp className="h-5 w-5 text-green-500" />
-              {content.case.solution.title}
+          <div className="space-y-4">
+            <h3 className="font-semibold text-white flex items-center gap-2">
+              <CheckCircle2 className="h-4 w-4 text-indigo-400" />
+              {caseData.solution.title}
             </h3>
-            <div className="space-y-4">
-              {content.case.solution.steps.map((step, idx) => (
-                <div key={idx} className="relative">
-                  <Card className="border border-border/50">
-                    <CardContent className="pt-6">
-                      <div className="flex items-start gap-4">
-                        <div className="p-2 rounded-md bg-primary/10">
-                          <step.icon className="h-5 w-5 text-primary" />
-                        </div>
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-2">
-                            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-bold">
-                              {idx + 1}
-                            </span>
-                            <h4 className="font-semibold">{step.title}</h4>
-                          </div>
-                          <p className="text-sm text-muted-foreground mb-3">
-                            {step.desc}
-                          </p>
-                          <div className="flex flex-wrap gap-2">
-                            {step.details.map((detail, didx) => (
-                              <Badge
-                                key={didx}
-                                variant="outline"
-                                className="text-xs font-normal"
-                              >
-                                <CheckCircle2 className="h-3 w-3 mr-1" />
-                                {detail}
-                              </Badge>
-                            ))}
-                          </div>
-                        </div>
+            <div className="grid gap-4 md:grid-cols-3">
+              {caseData.solution.steps.map((step, idx) => (
+                <Card key={idx} className="bg-zinc-800/50 border-zinc-700/50">
+                  <CardHeader className="pb-3">
+                    <div className="flex items-center gap-2">
+                      <div className="rounded-lg bg-indigo-500/10 p-1.5">
+                        <step.icon className="h-4 w-4 text-indigo-400" />
                       </div>
-                    </CardContent>
-                  </Card>
-                  {idx < content.case.solution.steps.length - 1 && (
-                    <div className="hidden md:block absolute left-8 top-full h-4 w-px bg-border" />
-                  )}
-                </div>
+                      <CardTitle className="text-base text-white">
+                        {step.title}
+                      </CardTitle>
+                    </div>
+                    <CardDescription className="text-zinc-400">
+                      {step.desc}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-2 text-sm">
+                      {step.details.map((detail, didx) => (
+                        <li
+                          key={didx}
+                          className="flex items-start gap-2 text-zinc-400"
+                        >
+                          <span className="text-indigo-400 mt-1">•</span>
+                          <span>{detail}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
               ))}
             </div>
           </div>
 
-          {/* Results */}
-          <div className="p-6 rounded-xl bg-gradient-to-r from-primary/5 to-primary/10 border border-primary/20">
-            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <Clock className="h-5 w-5 text-primary" />
-              {content.case.results.title}
+          <div className="rounded-xl bg-gradient-to-br from-indigo-950/50 to-violet-950/50 p-6 border border-indigo-500/20">
+            <h3 className="font-semibold text-white mb-4 flex items-center gap-2">
+              <TrendingUp className="h-4 w-4 text-green-400" />
+              {caseData.results.title}
             </h3>
-            <div className="grid gap-4 md:grid-cols-4">
-              {content.case.results.stats.map((stat, idx) => (
+            <div className="grid gap-4 sm:grid-cols-3">
+              {caseData.results.stats.map((stat, idx) => (
                 <div
                   key={idx}
-                  className="text-center p-4 rounded-lg bg-background/50"
+                  className="text-center p-4 rounded-lg bg-zinc-900/50 border border-zinc-700/50"
                 >
-                  <div className="text-3xl font-bold text-primary mb-1">
+                  <div className="text-3xl font-bold text-indigo-400">
                     {stat.value}
                   </div>
-                  <div className="font-medium text-sm mb-1">{stat.label}</div>
-                  <div className="text-xs text-muted-foreground">
-                    {stat.desc}
+                  <div className="text-sm font-medium text-white mt-1">
+                    {stat.label}
                   </div>
+                  <div className="text-xs text-zinc-400 mt-1">{stat.desc}</div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Tech Stack */}
-          <div>
-            <h3 className="text-sm font-semibold text-muted-foreground mb-3">
-              {content.case.tech.title}
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {content.case.tech.items.map((item, idx) => (
-                <Badge key={idx} variant="secondary">
-                  {item}
-                </Badge>
-              ))}
-            </div>
+          <div className="rounded-xl bg-zinc-800/30 p-6 border-l-4 border-indigo-500">
+            <p className="text-zinc-300 italic leading-relaxed">
+              "{caseData.testimonial.text}"
+            </p>
+            <p className="text-sm text-indigo-400 mt-2">
+              — {caseData.testimonial.author}
+            </p>
           </div>
-
-          {/* Testimonial */}
-          <Card className="bg-muted/30 border-muted">
-            <CardContent className="pt-6">
-              <h4 className="font-semibold mb-3 flex items-center gap-2">
-                <FileText className="h-4 w-4" />
-                {content.case.testimonial.title}
-              </h4>
-              <blockquote className="text-muted-foreground italic mb-3">
-                "{content.case.testimonial.quote}"
-              </blockquote>
-              <p className="text-sm font-medium text-right">
-                {content.case.testimonial.author}
-              </p>
-            </CardContent>
-          </Card>
         </CardContent>
       </Card>
 
-      {/* CTA */}
-      <Card className="bg-primary text-primary-foreground">
+      <Card className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white border-0">
         <CardContent className="flex flex-col md:flex-row items-center justify-between gap-4 py-8">
           <div className="text-center md:text-left">
-            <h2 className="text-2xl font-bold mb-2">{content.cta.title}</h2>
-            <p className="opacity-90">{content.cta.subtitle}</p>
+            <h3 className="text-lg font-semibold">{caseData.cta.title}</h3>
+            <p className="text-indigo-100 text-sm mt-1">{caseData.cta.desc}</p>
           </div>
-          <Button asChild size="lg" variant="secondary">
-            <Link href="/contact">{content.cta.button}</Link>
+          <Button
+            variant="secondary"
+            className="bg-white text-indigo-600 hover:bg-zinc-100"
+            asChild
+          >
+            <Link href="/contact">
+              {caseData.cta.button}
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
           </Button>
         </CardContent>
       </Card>

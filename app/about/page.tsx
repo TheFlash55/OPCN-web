@@ -24,7 +24,7 @@ export default function AboutPage() {
   const content = isZh
     ? {
         title: "关于我们",
-        subtitle: "专业数据服务团队，为一人公司提供企业级数据解决方案",
+        subtitle: "企业级智能数据基础设施提供商",
         expertise: {
           title: "专业背景",
           items: [
@@ -103,51 +103,38 @@ export default function AboutPage() {
         whyUs: {
           title: "为什么选择我们",
           items: [
-            {
-              title: "专注OPC",
-              desc: "深刻理解一人公司的痛点：预算有限、需要快速见效、技术储备不足",
-            },
-            {
-              title: "端到端服务",
-              desc: "从需求分析、数据采集、清洗处理到洞察报告，一站式交付",
-            },
-            {
-              title: "灵活交付",
-              desc: "支持一次性项目、月度订阅、按量计费等多种合作模式",
-            },
-            {
-              title: "技术赋能",
-              desc: "不仅交付数据，更提供可复用的工具和方法论",
-            },
+            "理解一人公司的资源约束，提供高性价比方案",
+            "从需求分析到交付运维的全流程服务",
+            "代码开源、文档完善，降低 vendor lock-in 风险",
+            "灵活的付费模式：项目制 / 订阅制 / 效果付费",
           ],
         },
       }
     : {
         title: "About Us",
-        subtitle:
-          "Professional data services team providing enterprise-grade solutions for One-Person Companies",
+        subtitle: "Enterprise-grade Intelligent Data Infrastructure Provider",
         expertise: {
-          title: "Our Expertise",
+          title: "Expertise",
           items: [
             {
               icon: Briefcase,
               title: "8+ Years Data Engineering",
-              desc: "Formerly at top-tier internet companies' data platform teams",
+              desc: "Former data platform teams at top internet companies",
             },
             {
               icon: Database,
               title: "Large-scale Data Collection",
-              desc: "Processing 10M+ data points daily across e-commerce, social, news domains",
+              desc: "Process tens of millions of data points daily across e-commerce, social, news",
             },
             {
               icon: LineChart,
-              title: "Business Data Analytics",
-              desc: "Data-driven decision support for 50+ companies, avg 40% efficiency gain",
+              title: "Business Analytics",
+              desc: "Helped 50+ companies with data-driven decisions, 40% avg efficiency gain",
             },
             {
               icon: Shield,
-              title: "Compliant Data Practice",
-              desc: "Deep understanding of Data Security Law and Personal Information Protection Law",
+              title: "Compliance",
+              desc: "Deep understanding of data security and privacy regulations",
             },
           ],
         },
@@ -180,7 +167,7 @@ export default function AboutPage() {
               ],
             },
             {
-              title: "Visualization & BI",
+              title: "Visualization",
               skills: [
                 "Streamlit",
                 "Plotly",
@@ -192,7 +179,7 @@ export default function AboutPage() {
             {
               title: "Cloud & DevOps",
               skills: [
-                "AWS/GCP/Aliyun",
+                "AWS/GCP/AliCloud",
                 "Docker",
                 "K8s",
                 "Airflow",
@@ -204,109 +191,102 @@ export default function AboutPage() {
         whyUs: {
           title: "Why Choose Us",
           items: [
-            {
-              title: "OPC-Focused",
-              desc: "Deep understanding of OPC pain points: limited budget, need quick results, lack tech resources",
-            },
-            {
-              title: "End-to-End Service",
-              desc: "One-stop delivery from requirement analysis, data collection, processing to insight reports",
-            },
-            {
-              title: "Flexible Delivery",
-              desc: "Support one-time projects, monthly subscriptions, pay-per-use models",
-            },
-            {
-              title: "Tech Empowerment",
-              desc: "Deliver not just data, but reusable tools and methodologies",
-            },
+            "Understand resource constraints of one-person companies",
+            "End-to-end service from analysis to delivery",
+            "Open source code, comprehensive documentation",
+            "Flexible pricing: project-based, subscription, or performance-based",
           ],
         },
       };
 
   return (
-    <div className="space-y-8">
-      {/* Hero */}
+    <div className="space-y-8 min-h-screen">
       <section className="text-center space-y-4 py-8">
-        <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
+        <h1 className="text-3xl sm:text-4xl font-bold text-white">
           {content.title}
         </h1>
-        <p className="max-w-2xl mx-auto text-muted-foreground text-lg">
-          {content.subtitle}
-        </p>
+        <p className="text-zinc-400 max-w-2xl mx-auto">{content.subtitle}</p>
       </section>
 
-      {/* Expertise */}
-      <Card>
+      <Card className="bg-zinc-900/50 border-zinc-800/50">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Award className="h-5 w-5 text-primary" />
+          <CardTitle className="flex items-center gap-2 text-white">
+            <GraduationCap className="h-5 w-5 text-indigo-400" />
             {content.expertise.title}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 md:grid-cols-2">
             {content.expertise.items.map((item, idx) => (
-              <div
-                key={idx}
-                className="flex items-start gap-4 p-4 rounded-lg border border-border/50"
-              >
-                <div className="p-2 rounded-md bg-primary/10">
-                  <item.icon className="h-5 w-5 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold mb-1">{item.title}</h3>
-                  <p className="text-sm text-muted-foreground">{item.desc}</p>
-                </div>
-              </div>
+              <Card key={idx} className="bg-zinc-800/50 border-zinc-700/50">
+                <CardContent className="pt-6">
+                  <div className="flex items-start gap-3">
+                    <div className="rounded-lg bg-indigo-500/10 p-2">
+                      <item.icon className="h-5 w-5 text-indigo-400" />
+                    </div>
+                    <div className="space-y-1">
+                      <h3 className="font-semibold text-white">{item.title}</h3>
+                      <p className="text-sm text-zinc-400">{item.desc}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </CardContent>
       </Card>
 
-      {/* Tech Stack */}
-      <Card>
+      <Card className="bg-zinc-900/50 border-zinc-800/50">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Code2 className="h-5 w-5 text-primary" />
+          <CardTitle className="flex items-center gap-2 text-white">
+            <Code2 className="h-5 w-5 text-indigo-400" />
             {content.techStack.title}
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {content.techStack.categories.map((cat, idx) => (
-              <div key={idx} className="p-4 rounded-lg border border-border/50">
-                <h3 className="font-semibold mb-3 text-sm">{cat.title}</h3>
-                <div className="flex flex-wrap gap-2">
-                  {cat.skills.map((skill, sidx) => (
-                    <Badge key={sidx} variant="secondary" className="text-xs">
-                      {skill}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
+              <Card key={idx} className="bg-zinc-800/50 border-zinc-700/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base text-white">
+                    {cat.title}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-wrap gap-2">
+                    {cat.skills.map((skill, sidx) => (
+                      <Badge
+                        key={sidx}
+                        variant="secondary"
+                        className="bg-indigo-500/10 text-indigo-300 border-indigo-500/20"
+                      >
+                        {skill}
+                      </Badge>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </CardContent>
       </Card>
 
-      {/* Why Us */}
-      <Card>
+      <Card className="bg-zinc-900/50 border-zinc-800/50">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <GraduationCap className="h-5 w-5 text-primary" />
+          <CardTitle className="flex items-center gap-2 text-white">
+            <Award className="h-5 w-5 text-indigo-400" />
             {content.whyUs.title}
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4 md:grid-cols-2">
+          <ul className="space-y-3">
             {content.whyUs.items.map((item, idx) => (
-              <div key={idx} className="p-4 rounded-lg bg-muted/30">
-                <h3 className="font-semibold mb-2">{item.title}</h3>
-                <p className="text-sm text-muted-foreground">{item.desc}</p>
-              </div>
+              <li key={idx} className="flex items-start gap-2 text-zinc-300">
+                <span className="text-indigo-400 mt-1">•</span>
+                <span>{item}</span>
+              </li>
             ))}
-          </div>
+          </ul>
         </CardContent>
       </Card>
     </div>

@@ -143,19 +143,19 @@ export default function ServicesPage() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 min-h-screen">
       {/* Hero Section */}
       <section className="text-center space-y-4 py-8">
-        <h1 className="text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl text-gray-900">
+        <h1 className="text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl text-white">
           {content.hero.title}
         </h1>
-        <p className="max-w-3xl mx-auto text-gray-600 text-lg leading-relaxed">
+        <p className="max-w-3xl mx-auto text-zinc-400 text-lg leading-relaxed">
           {content.hero.subtitle}
         </p>
         <Button
           asChild
           size="lg"
-          className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold"
+          className="mt-4 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold"
         >
           <Link href="/contact">{content.hero.cta}</Link>
         </Button>
@@ -163,31 +163,31 @@ export default function ServicesPage() {
 
       {/* Services Tabs */}
       <Tabs defaultValue="collection" className="w-full">
-        <TabsList className="w-full flex flex-nowrap overflow-x-auto sm:grid sm:grid-cols-4 gap-1 sm:gap-0 bg-gray-100 p-1 rounded-lg h-auto">
+        <TabsList className="w-full flex flex-nowrap overflow-x-auto sm:grid sm:grid-cols-4 gap-1 sm:gap-2 bg-transparent p-0 h-auto">
           <TabsTrigger
             value="collection"
-            className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-gray-600 data-[state=active]:bg-blue-600 data-[state=active]:text-white rounded-md whitespace-nowrap flex-shrink-0 transition-all"
+            className="flex items-center gap-2 px-4 py-3 text-sm font-medium text-zinc-400 data-[state=active]:bg-zinc-800/80 data-[state=active]:text-indigo-400 data-[state=active]:border-indigo-500/50 border border-transparent rounded-lg whitespace-nowrap flex-shrink-0 transition-all hover:text-zinc-200 hover:bg-zinc-800/50"
           >
             <Database className="h-4 w-4" />
             <span>数据采集服务</span>
           </TabsTrigger>
           <TabsTrigger
             value="processing"
-            className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-gray-600 data-[state=active]:bg-blue-600 data-[state=active]:text-white rounded-md whitespace-nowrap flex-shrink-0 transition-all"
+            className="flex items-center gap-2 px-4 py-3 text-sm font-medium text-zinc-400 data-[state=active]:bg-zinc-800/80 data-[state=active]:text-indigo-400 data-[state=active]:border-indigo-500/50 border border-transparent rounded-lg whitespace-nowrap flex-shrink-0 transition-all hover:text-zinc-200 hover:bg-zinc-800/50"
           >
             <Settings className="h-4 w-4" />
             <span>数据处理服务</span>
           </TabsTrigger>
           <TabsTrigger
             value="insights"
-            className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-gray-600 data-[state=active]:bg-blue-600 data-[state=active]:text-white rounded-md whitespace-nowrap flex-shrink-0 transition-all"
+            className="flex items-center gap-2 px-4 py-3 text-sm font-medium text-zinc-400 data-[state=active]:bg-zinc-800/80 data-[state=active]:text-indigo-400 data-[state=active]:border-indigo-500/50 border border-transparent rounded-lg whitespace-nowrap flex-shrink-0 transition-all hover:text-zinc-200 hover:bg-zinc-800/50"
           >
             <BarChart3 className="h-4 w-4" />
             <span>数据洞察服务</span>
           </TabsTrigger>
           <TabsTrigger
             value="compliance"
-            className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-gray-600 data-[state=active]:bg-blue-600 data-[state=active]:text-white rounded-md whitespace-nowrap flex-shrink-0 transition-all"
+            className="flex items-center gap-2 px-4 py-3 text-sm font-medium text-zinc-400 data-[state=active]:bg-zinc-800/80 data-[state=active]:text-indigo-400 data-[state=active]:border-indigo-500/50 border border-transparent rounded-lg whitespace-nowrap flex-shrink-0 transition-all hover:text-zinc-200 hover:bg-zinc-800/50"
           >
             <Shield className="h-4 w-4" />
             <span>合规与安全</span>
@@ -196,12 +196,12 @@ export default function ServicesPage() {
 
         {/* Collection Tab */}
         <TabsContent value="collection" className="space-y-6 mt-6">
-          <Card className="border-gray-200">
+          <Card className="bg-zinc-900/50 border-zinc-800/50">
             <CardHeader>
-              <CardTitle className="text-xl text-gray-900">
+              <CardTitle className="text-xl text-white">
                 {content.collection.title}
               </CardTitle>
-              <CardDescription className="text-gray-600">
+              <CardDescription className="text-zinc-400">
                 {content.collection.subtitle}
               </CardDescription>
             </CardHeader>
@@ -211,25 +211,25 @@ export default function ServicesPage() {
                 {content.collection.scenarios.map((item, idx) => (
                   <Card
                     key={idx}
-                    className="border border-gray-200 hover:border-blue-300 transition-colors"
+                    className="bg-zinc-800/50 border-zinc-700/50 hover:border-indigo-500/30 transition-colors"
                   >
                     <CardContent className="pt-6">
-                      <item.icon className="h-8 w-8 text-blue-600 mb-3" />
-                      <h3 className="font-semibold mb-1 text-gray-900">
+                      <item.icon className="h-8 w-8 text-indigo-400 mb-3" />
+                      <h3 className="font-semibold mb-1 text-white">
                         {item.title}
                       </h3>
-                      <p className="text-sm text-gray-600">{item.desc}</p>
+                      <p className="text-sm text-zinc-400">{item.desc}</p>
                     </CardContent>
                   </Card>
                 ))}
               </div>
               {/* Tech Stack */}
-              <Card className="bg-gray-50 border-gray-200">
+              <Card className="bg-zinc-800/30 border-zinc-700/50">
                 <CardHeader>
-                  <CardTitle className="text-base text-gray-900">
+                  <CardTitle className="text-base text-white">
                     {content.collection.tech.title}
                   </CardTitle>
-                  <CardDescription>
+                  <CardDescription className="text-zinc-400">
                     {content.collection.tech.desc}
                   </CardDescription>
                 </CardHeader>
@@ -237,8 +237,8 @@ export default function ServicesPage() {
                   <ul className="space-y-3">
                     {content.collection.tech.items.map((item, idx) => (
                       <li key={idx} className="flex items-start gap-3 text-sm">
-                        <CheckCircle2 className="h-5 w-5 text-blue-600 mt-0.5 shrink-0" />
-                        <span className="text-gray-700">{item}</span>
+                        <CheckCircle2 className="h-5 w-5 text-indigo-400 mt-0.5 shrink-0" />
+                        <span className="text-zinc-300">{item}</span>
                       </li>
                     ))}
                   </ul>
@@ -250,12 +250,12 @@ export default function ServicesPage() {
 
         {/* Processing Tab */}
         <TabsContent value="processing" className="space-y-6 mt-6">
-          <Card className="border-gray-200">
+          <Card className="bg-zinc-900/50 border-zinc-800/50">
             <CardHeader>
-              <CardTitle className="text-xl text-gray-900">
+              <CardTitle className="text-xl text-white">
                 {content.processing.title}
               </CardTitle>
-              <CardDescription className="text-gray-600">
+              <CardDescription className="text-zinc-400">
                 {content.processing.subtitle}
               </CardDescription>
             </CardHeader>
@@ -264,28 +264,28 @@ export default function ServicesPage() {
               <div className="grid gap-4 md:grid-cols-3">
                 {content.processing.steps.map((step, idx) => (
                   <div key={idx} className="relative">
-                    <Card className="border border-gray-200 h-full hover:border-blue-300 transition-colors">
+                    <Card className="bg-zinc-800/50 border-zinc-700/50 h-full hover:border-indigo-500/30 transition-colors">
                       <CardContent className="pt-6">
                         <div className="flex items-center gap-2 mb-3">
-                          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-white text-xs font-bold">
+                          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-500/20 text-indigo-400 text-xs font-bold">
                             {idx + 1}
                           </span>
-                          <h3 className="font-semibold text-gray-900">
+                          <h3 className="font-semibold text-white">
                             {step.title}
                           </h3>
                         </div>
-                        <p className="text-sm text-gray-600">{step.desc}</p>
+                        <p className="text-sm text-zinc-400">{step.desc}</p>
                       </CardContent>
                     </Card>
                     {idx < content.processing.steps.length - 1 && (
-                      <div className="hidden md:block absolute top-1/2 -right-2 w-4 h-px bg-gray-300" />
+                      <div className="hidden md:block absolute top-1/2 -right-2 w-4 h-px bg-zinc-700" />
                     )}
                   </div>
                 ))}
               </div>
               {/* Tools */}
-              <div className="flex items-center gap-2 text-sm text-gray-600 bg-gray-50 p-4 rounded-lg border border-gray-200">
-                <Settings className="h-4 w-4 text-blue-600" />
+              <div className="flex items-center gap-2 text-sm text-zinc-400 bg-zinc-800/30 p-4 rounded-lg border border-zinc-700/50">
+                <Settings className="h-4 w-4 text-indigo-400" />
                 <span>{content.processing.tools}</span>
               </div>
             </CardContent>
@@ -294,12 +294,12 @@ export default function ServicesPage() {
 
         {/* Insights Tab */}
         <TabsContent value="insights" className="space-y-6 mt-6">
-          <Card className="border-gray-200">
+          <Card className="bg-zinc-900/50 border-zinc-800/50">
             <CardHeader>
-              <CardTitle className="text-xl text-gray-900">
+              <CardTitle className="text-xl text-white">
                 {content.insights.title}
               </CardTitle>
-              <CardDescription className="text-gray-600">
+              <CardDescription className="text-zinc-400">
                 {content.insights.subtitle}
               </CardDescription>
             </CardHeader>
@@ -309,31 +309,31 @@ export default function ServicesPage() {
                 {content.insights.features.map((feature, idx) => (
                   <Card
                     key={idx}
-                    className="border border-gray-200 hover:border-blue-300 transition-colors"
+                    className="bg-zinc-800/50 border-zinc-700/50 hover:border-indigo-500/30 transition-colors"
                   >
                     <CardContent className="pt-6">
-                      <h3 className="font-semibold mb-2 text-gray-900">
+                      <h3 className="font-semibold mb-2 text-white">
                         {feature.title}
                       </h3>
-                      <p className="text-sm text-gray-600">{feature.desc}</p>
+                      <p className="text-sm text-zinc-400">{feature.desc}</p>
                     </CardContent>
                   </Card>
                 ))}
               </div>
               {/* Sample Report */}
-              <Card className="bg-gray-50 border-gray-200">
+              <Card className="bg-zinc-800/30 border-zinc-700/50">
                 <CardContent className="flex flex-col sm:flex-row items-center justify-between gap-4 py-6">
                   <div className="text-center sm:text-left">
-                    <h3 className="font-semibold mb-1 text-gray-900">
+                    <h3 className="font-semibold mb-1 text-white">
                       {content.insights.demo.title}
                     </h3>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-zinc-400">
                       {content.insights.demo.desc}
                     </p>
                   </div>
                   <Button
                     variant="outline"
-                    className="gap-2 border-blue-600 text-blue-600 hover:bg-blue-50"
+                    className="gap-2 border-indigo-500/50 text-indigo-400 hover:bg-indigo-500/10 hover:text-indigo-300"
                   >
                     <Download className="h-4 w-4" />
                     下载 PDF
@@ -346,12 +346,12 @@ export default function ServicesPage() {
 
         {/* Compliance Tab */}
         <TabsContent value="compliance" className="space-y-6 mt-6">
-          <Card className="border-gray-200">
+          <Card className="bg-zinc-900/50 border-zinc-800/50">
             <CardHeader>
-              <CardTitle className="text-xl text-gray-900">
+              <CardTitle className="text-xl text-white">
                 {content.compliance.title}
               </CardTitle>
-              <CardDescription className="text-gray-600">
+              <CardDescription className="text-zinc-400">
                 {content.compliance.subtitle}
               </CardDescription>
             </CardHeader>
@@ -360,16 +360,16 @@ export default function ServicesPage() {
                 {content.compliance.items.map((item, idx) => (
                   <Card
                     key={idx}
-                    className="border border-gray-200 hover:border-blue-300 transition-colors"
+                    className="bg-zinc-800/50 border-zinc-700/50 hover:border-indigo-500/30 transition-colors"
                   >
                     <CardContent className="pt-6">
                       <div className="flex items-center gap-2 mb-2">
-                        <item.icon className="h-5 w-5 text-blue-600" />
-                        <h3 className="font-semibold text-gray-900">
+                        <item.icon className="h-5 w-5 text-indigo-400" />
+                        <h3 className="font-semibold text-white">
                           {item.title}
                         </h3>
                       </div>
-                      <p className="text-sm text-gray-600">{item.desc}</p>
+                      <p className="text-sm text-zinc-400">{item.desc}</p>
                     </CardContent>
                   </Card>
                 ))}
@@ -380,7 +380,7 @@ export default function ServicesPage() {
       </Tabs>
 
       {/* CTA Section */}
-      <Card className="bg-blue-600 text-white border-0">
+      <Card className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white border-0">
         <CardContent className="flex flex-col md:flex-row items-center justify-between gap-4 py-8">
           <div className="text-center md:text-left">
             <h2 className="text-2xl font-bold mb-2">{content.cta.title}</h2>
@@ -390,7 +390,7 @@ export default function ServicesPage() {
             asChild
             size="lg"
             variant="secondary"
-            className="bg-white text-blue-600 hover:bg-gray-100 font-semibold"
+            className="bg-white text-indigo-600 hover:bg-zinc-100 font-semibold"
           >
             <Link href="/contact">{content.cta.button}</Link>
           </Button>

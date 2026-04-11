@@ -1,132 +1,236 @@
 "use client";
 
-import { Database, Settings, BarChart3, Rocket } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import {
+  MessageSquare,
+  Settings,
+  Database,
+  FileText,
+  RefreshCw,
+  ArrowRight,
+  ExternalLink,
+} from "lucide-react";
+import Link from "next/link";
 import { useUIStore } from "@/store/ui";
 
-const stepsZh = [
+const workflowsZh = [
   {
-    icon: Database,
-    step: "01",
-    title: "数据采集",
-    description: "部署爬虫监控目标网站，自动采集价格、库存、评论等数据",
+    icon: MessageSquare,
+    title: "需求沟通",
+    desc: "深入了解业务场景，明确数据采集目标",
+    tag: "Step 1",
   },
   {
     icon: Settings,
-    step: "02",
-    title: "清洗处理",
-    description: "去重、格式化、异常检测，将原始数据转化为结构化信息",
+    title: "方案定制",
+    desc: "设计专属数据采集与处理方案",
+    tag: "Step 2",
   },
   {
-    icon: BarChart3,
-    step: "03",
-    title: "分析洞察",
-    description: "趋势分析、竞品对比、情感分析，挖掘数据价值",
+    icon: Database,
+    title: "数据采集",
+    desc: "7×24小时自动化监控与采集",
+    tag: "Step 3",
   },
   {
-    icon: Rocket,
-    step: "04",
-    title: "报告交付",
-    description: "自动生成可视化报告，实时推送关键指标预警",
+    icon: FileText,
+    title: "分析报告",
+    desc: "自动生成洞察报告与决策建议",
+    tag: "Step 4",
+  },
+  {
+    icon: RefreshCw,
+    title: "持续优化",
+    desc: "根据反馈迭代优化数据服务",
+    tag: "Step 5",
   },
 ];
 
-const stepsEn = [
+const workflowsEn = [
   {
-    icon: Database,
-    step: "01",
-    title: "Data Collection",
-    description:
-      "Deploy crawlers to monitor target sites, auto-collect prices, inventory, reviews",
+    icon: MessageSquare,
+    title: "Discovery",
+    desc: "Understand business needs and goals",
+    tag: "Step 1",
   },
   {
     icon: Settings,
-    step: "02",
-    title: "Processing",
-    description:
-      "Deduplication, formatting, anomaly detection—raw to structured data",
+    title: "Custom Solution",
+    desc: "Design tailored data strategy",
+    tag: "Step 2",
   },
   {
-    icon: BarChart3,
-    step: "03",
+    icon: Database,
+    title: "Collection",
+    desc: "24/7 automated monitoring",
+    tag: "Step 3",
+  },
+  {
+    icon: FileText,
     title: "Analysis",
-    description:
-      "Trend analysis, competitor comparison, sentiment analysis—unlock data value",
+    desc: "Automated insights & reports",
+    tag: "Step 4",
   },
   {
-    icon: Rocket,
-    step: "04",
-    title: "Delivery",
-    description:
-      "Auto-generated visual reports with real-time alerts for key metrics",
+    icon: RefreshCw,
+    title: "Optimization",
+    desc: "Continuous improvement based on feedback",
+    tag: "Step 5",
+  },
+];
+
+const casesZh = [
+  {
+    name: "竞品价格监控",
+    result: "效率提升 300%",
+    color: "from-blue-500 to-cyan-500",
+  },
+  {
+    name: "政策动态追踪",
+    result: "响应速度 <5min",
+    color: "from-purple-500 to-pink-500",
+  },
+  {
+    name: "舆情分析系统",
+    result: "准确率 95%+",
+    color: "from-orange-500 to-red-500",
+  },
+];
+
+const casesEn = [
+  {
+    name: "Price Monitoring",
+    result: "300% Efficiency",
+    color: "from-blue-500 to-cyan-500",
+  },
+  {
+    name: "Policy Tracking",
+    result: "<5min Response",
+    color: "from-purple-500 to-pink-500",
+  },
+  {
+    name: "Sentiment Analysis",
+    result: "95%+ Accuracy",
+    color: "from-orange-500 to-red-500",
   },
 ];
 
 export function Workflow() {
   const locale = useUIStore((state) => state.locale);
   const isZh = locale === "zh";
-  const steps = isZh ? stepsZh : stepsEn;
+  const workflows = isZh ? workflowsZh : workflowsEn;
+  const cases = isZh ? casesZh : casesEn;
 
   const content = isZh
     ? {
-        title: "简单四步，开启数据之旅",
-        subtitle: "无需技术背景，我们全程协助您完成数据自动化",
+        title: "服务流程",
+        subtitle: "标准化交付，确保每个环节质量可控",
+        casesTitle: "成功案例",
+        casesSubtitle: "查看全部 →",
+        cta: "开始您的项目",
       }
     : {
-        title: "Start Your Data Journey in 4 Steps",
-        subtitle:
-          "No tech background needed—we assist you throughout the automation",
+        title: "Our Process",
+        subtitle: "Standardized delivery with quality control",
+        casesTitle: "Success Stories",
+        casesSubtitle: "View all →",
+        cta: "Start Your Project",
       };
 
   return (
-    <section className="py-24 bg-slate-950">
+    <section className="py-24 bg-[#0a0a0f]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-white sm:text-4xl">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
             {content.title}
           </h2>
-          <p className="mt-4 text-lg text-slate-400">{content.subtitle}</p>
+          <p className="mt-4 text-lg text-zinc-400">{content.subtitle}</p>
         </div>
 
+        {/* Workflow Steps */}
         <div className="relative">
-          {/* Connection line */}
-          <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-primary/30 to-transparent hidden lg:block" />
+          {/* Connection Line */}
+          <div className="absolute top-1/2 left-0 right-0 h-px bg-gradient-to-r from-transparent via-zinc-700 to-transparent hidden lg:block" />
 
-          <div className="space-y-12 lg:space-y-0">
-            {steps.map((item, idx) => (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            {workflows.map((step, idx) => (
+              <Card
+                key={idx}
+                className="relative bg-zinc-900/50 border-zinc-800 hover:border-indigo-500/50 transition-all duration-300 group"
+              >
+                <CardContent className="p-5">
+                  {/* Tag */}
+                  <span className="inline-block px-2 py-0.5 text-xs font-medium text-indigo-400 bg-indigo-500/10 rounded mb-3">
+                    {step.tag}
+                  </span>
+
+                  {/* Icon */}
+                  <div className="mb-3 inline-flex items-center justify-center w-10 h-10 rounded-lg bg-zinc-800 group-hover:bg-indigo-500/20 transition-colors">
+                    <step.icon className="h-5 w-5 text-zinc-400 group-hover:text-indigo-400 transition-colors" />
+                  </div>
+
+                  {/* Content */}
+                  <h3 className="font-semibold text-white mb-1">
+                    {step.title}
+                  </h3>
+                  <p className="text-sm text-zinc-500">{step.desc}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* Success Cases */}
+        <div className="mt-20">
+          <div className="flex items-center justify-between mb-8">
+            <h3 className="text-xl font-semibold text-white">
+              {content.casesTitle}
+            </h3>
+            <Link
+              href="/cases"
+              className="text-sm text-zinc-500 hover:text-indigo-400 transition-colors flex items-center gap-1"
+            >
+              {content.casesSubtitle}
+              <ExternalLink className="h-3 w-3" />
+            </Link>
+          </div>
+
+          <div className="grid sm:grid-cols-3 gap-4">
+            {cases.map((item, idx) => (
               <div
                 key={idx}
-                className={`relative flex flex-col lg:flex-row items-center gap-8 lg:gap-16 ${
-                  idx % 2 === 1 ? "lg:flex-row-reverse" : ""
-                }`}
+                className="relative overflow-hidden rounded-xl bg-zinc-900 border border-zinc-800 p-6 group hover:border-zinc-700 transition-all"
               >
-                {/* Content */}
+                {/* Gradient Background */}
                 <div
-                  className={`flex-1 ${idx % 2 === 1 ? "lg:text-right" : ""}`}
-                >
-                  <div
-                    className={`inline-flex items-center gap-3 mb-4 ${idx % 2 === 1 ? "lg:flex-row-reverse" : ""}`}
-                  >
-                    <span className="text-5xl font-bold text-slate-800">
-                      {item.step}
-                    </span>
-                    <div className="p-3 rounded-xl bg-primary/10">
-                      <item.icon className="h-6 w-6 text-primary" />
-                    </div>
-                  </div>
-                  <h3 className="text-xl font-semibold text-white mb-2">
-                    {item.title}
-                  </h3>
-                  <p className="text-slate-400 max-w-md">{item.description}</p>
+                  className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}
+                />
+
+                <div className="relative">
+                  <h4 className="font-medium text-white mb-2">{item.name}</h4>
+                  <p className="text-2xl font-bold bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
+                    {item.result}
+                  </p>
                 </div>
-
-                {/* Center dot */}
-                <div className="relative z-10 flex-shrink-0 w-4 h-4 rounded-full bg-primary ring-4 ring-slate-950 hidden lg:block" />
-
-                {/* Spacer for alternating layout */}
-                <div className="flex-1 hidden lg:block" />
               </div>
             ))}
           </div>
+        </div>
+
+        {/* CTA */}
+        <div className="mt-16 text-center">
+          <Button
+            asChild
+            size="lg"
+            className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-8"
+          >
+            <Link href="/contact">
+              {content.cta}
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
         </div>
       </div>
     </section>

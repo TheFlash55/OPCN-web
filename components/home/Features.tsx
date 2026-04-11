@@ -1,132 +1,231 @@
 "use client";
 
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import {
   Database,
+  Settings,
   BarChart3,
-  FileSearch,
-  Shield,
-  Zap,
-  Clock,
+  ArrowRight,
+  CheckCircle2,
+  Copy,
+  Terminal,
 } from "lucide-react";
 import { useUIStore } from "@/store/ui";
 
-const featuresZh = [
+const stepsZh = [
   {
     icon: Database,
-    title: "智能数据采集",
-    description: "自动监控竞品价格、政策动态、舆情信息，7×24小时不间断采集",
+    title: "创建 Agent",
+    desc: "配置数据采集任务，选择监控目标和数据类型",
+    code: "opc agent create --name=my-agent",
+  },
+  {
+    icon: Settings,
+    title: "发布服务",
+    desc: "设置定价和交付说明，生成可分享的服务页",
+    code: "opc agent publish --price=599",
   },
   {
     icon: BarChart3,
-    title: "深度数据分析",
-    description: "清洗、结构化、标注全流程处理，将原始数据转化为可用信息",
-  },
-  {
-    icon: FileSearch,
-    title: "商业洞察报告",
-    description: "自动生成趋势分析、竞品对比、决策建议，助力商业决策",
-  },
-  {
-    icon: Shield,
-    title: "合规数据实践",
-    description: "仅采集公开数据，遵循《数据安全法》，匿名化处理保障安全",
-  },
-  {
-    icon: Zap,
-    title: "极速交付",
-    description: "简单任务3-5天上线，完整系统1-2周交付，快速见效",
-  },
-  {
-    icon: Clock,
-    title: "实时预警",
-    description: "竞品价格变动、政策更新即时推送，5分钟内响应市场变化",
+    title: "获取洞察",
+    desc: "接收线索、分析数据、输出商业决策建议",
+    code: "opc insights dashboard",
   },
 ];
 
-const featuresEn = [
+const stepsEn = [
   {
     icon: Database,
-    title: "Smart Data Collection",
-    description:
-      "Automatically monitor competitor prices, policy changes, and sentiment 24/7",
+    title: "Create Agent",
+    desc: "Configure data collection tasks and select monitoring targets",
+    code: "opc agent create --name=my-agent",
+  },
+  {
+    icon: Settings,
+    title: "Publish Service",
+    desc: "Set pricing and delivery notes, generate shareable page",
+    code: "opc agent publish --price=599",
   },
   {
     icon: BarChart3,
-    title: "Deep Data Analysis",
-    description:
-      "Full pipeline: cleaning, structuring, labeling—raw data to actionable info",
-  },
-  {
-    icon: FileSearch,
-    title: "Business Insights",
-    description:
-      "Auto-generated trend analysis, competitor comparison, and decision recommendations",
-  },
-  {
-    icon: Shield,
-    title: "Compliant Practice",
-    description:
-      "Only public data, following Data Security Law, anonymized processing",
-  },
-  {
-    icon: Zap,
-    title: "Fast Delivery",
-    description: "Simple tasks live in 3-5 days, full systems in 1-2 weeks",
-  },
-  {
-    icon: Clock,
-    title: "Real-time Alerts",
-    description:
-      "Instant push for price changes and policy updates—respond in 5 minutes",
+    title: "Get Insights",
+    desc: "Receive leads, analyze data, output business decisions",
+    code: "opc insights dashboard",
   },
 ];
 
 export function Features() {
   const locale = useUIStore((state) => state.locale);
   const isZh = locale === "zh";
-  const features = isZh ? featuresZh : featuresEn;
+  const steps = isZh ? stepsZh : stepsEn;
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+
+  const handleCopy = (code: string, index: number) => {
+    navigator.clipboard.writeText(code);
+    setCopiedIndex(index);
+    setTimeout(() => setCopiedIndex(null), 2000);
+  };
 
   const content = isZh
     ? {
-        title: "全方位数据服务能力",
-        subtitle: "从采集到洞察，一站式解决您的数据需求",
+        title: "三步快速开始",
+        subtitle: "从创建到上线，只需几分钟",
+        whyTitle: "为什么选择我们？",
+        features: [
+          { title: "全链路服务", desc: "从采集到洞察，一站式数据解决方案" },
+          { title: "企业级可靠", desc: "99.9%可用性，支持高并发数据处理" },
+          { title: "灵活定价", desc: "按需付费，适合不同规模的企业" },
+        ],
+        cta: "查看教程",
       }
     : {
-        title: "Comprehensive Data Services",
-        subtitle:
-          "From collection to insights—one-stop solution for your data needs",
+        title: "Quick Start in 3 Steps",
+        subtitle: "From creation to launch in minutes",
+        whyTitle: "Why Choose Us?",
+        features: [
+          {
+            title: "End-to-End",
+            desc: "From collection to insights, one-stop solution",
+          },
+          {
+            title: "Enterprise Grade",
+            desc: "99.9% uptime, high concurrency support",
+          },
+          {
+            title: "Flexible Pricing",
+            desc: "Pay as you go, fit for all sizes",
+          },
+        ],
+        cta: "View Tutorial",
       };
 
   return (
-    <section className="py-24 bg-slate-950">
+    <section className="py-24 bg-[#0a0a0f] relative">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-white sm:text-4xl">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
             {content.title}
           </h2>
-          <p className="mt-4 text-lg text-slate-400">{content.subtitle}</p>
+          <p className="mt-4 text-lg text-zinc-400">{content.subtitle}</p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {features.map((feature, idx) => (
-            <div
-              key={idx}
-              className="group relative rounded-2xl border border-slate-800 bg-slate-900/50 p-8 transition-all hover:border-primary/50 hover:bg-slate-900"
-            >
-              <div className="mb-4 inline-flex rounded-xl bg-primary/10 p-3">
-                <feature.icon className="h-6 w-6 text-primary" />
-              </div>
-              <h3 className="mb-2 text-xl font-semibold text-white">
-                {feature.title}
-              </h3>
-              <p className="text-slate-400 leading-relaxed">
-                {feature.description}
-              </p>
+        {/* 3 Steps */}
+        <div className="grid md:grid-cols-3 gap-6 mb-24">
+          {steps.map((step, idx) => (
+            <div key={idx} className="relative group">
+              <Card className="bg-zinc-900/50 border-zinc-800 hover:border-indigo-500/50 transition-all duration-300 h-full overflow-hidden">
+                <CardContent className="p-6">
+                  {/* Step Number & Icon */}
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <span className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-500/20 text-indigo-400 text-sm font-bold">
+                        {idx + 1}
+                      </span>
+                      <step.icon className="h-5 w-5 text-indigo-400" />
+                    </div>
+                  </div>
 
-              {/* Hover glow effect */}
-              <div className="absolute inset-0 -z-10 rounded-2xl bg-primary/5 opacity-0 blur-xl transition-opacity group-hover:opacity-100" />
+                  {/* Title & Desc */}
+                  <h3 className="text-lg font-semibold text-white mb-2">
+                    {step.title}
+                  </h3>
+                  <p className="text-sm text-zinc-400 mb-4">{step.desc}</p>
+
+                  {/* Code Snippet */}
+                  <div className="relative rounded-lg bg-zinc-950 border border-zinc-800 p-3">
+                    <div className="flex items-center justify-between mb-2">
+                      <Terminal className="h-3 w-3 text-zinc-600" />
+                      <button
+                        onClick={() => handleCopy(step.code, idx)}
+                        className="text-zinc-600 hover:text-zinc-400 transition-colors"
+                      >
+                        {copiedIndex === idx ? (
+                          <CheckCircle2 className="h-3 w-3 text-green-500" />
+                        ) : (
+                          <Copy className="h-3 w-3" />
+                        )}
+                      </button>
+                    </div>
+                    <code className="text-xs font-mono text-zinc-500 block">
+                      {step.code}
+                    </code>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Connector Arrow */}
+              {idx < steps.length - 1 && (
+                <div className="hidden md:block absolute top-1/2 -right-3 transform -translate-y-1/2 z-10">
+                  <ArrowRight className="h-5 w-5 text-zinc-700" />
+                </div>
+              )}
             </div>
           ))}
+        </div>
+
+        {/* Why Choose Us */}
+        <div className="relative rounded-2xl bg-gradient-to-br from-zinc-900 to-zinc-900/50 border border-zinc-800 p-8 sm:p-12">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h3 className="text-2xl sm:text-3xl font-bold text-white mb-6">
+                {content.whyTitle}
+              </h3>
+              <div className="space-y-4">
+                {content.features.map((feature, idx) => (
+                  <div key={idx} className="flex items-start gap-3">
+                    <div className="mt-1">
+                      <CheckCircle2 className="h-5 w-5 text-indigo-400" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-white">
+                        {feature.title}
+                      </h4>
+                      <p className="text-sm text-zinc-400">{feature.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <Button
+                variant="outline"
+                className="mt-8 border-zinc-700 text-zinc-300 hover:bg-zinc-800"
+              >
+                {content.cta}
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </div>
+
+            {/* Decorative Code Block */}
+            <div className="hidden lg:block relative">
+              <div className="rounded-xl bg-zinc-950 border border-zinc-800 p-6 font-mono text-sm">
+                <div className="flex items-center gap-2 mb-4 text-zinc-600">
+                  <div className="w-3 h-3 rounded-full bg-zinc-800" />
+                  <div className="w-3 h-3 rounded-full bg-zinc-800" />
+                  <div className="w-3 h-3 rounded-full bg-zinc-800" />
+                  <span className="ml-2 text-xs">example.config.js</span>
+                </div>
+                <pre className="text-zinc-500 leading-relaxed">
+                  <span className="text-purple-400">export default</span> {`{`}
+                  {"\n"} <span className="text-blue-400">agent</span>: {`{`}
+                  {"\n"} <span className="text-green-400">name</span>:{" "}
+                  <span className="text-yellow-400">"Data Collector"</span>,
+                  {"\n"} <span className="text-green-400">type</span>:{" "}
+                  <span className="text-yellow-400">"monitoring"</span>,{"\n"}{" "}
+                  <span className="text-green-400">interval</span>:{" "}
+                  <span className="text-orange-400">"5m"</span>
+                  {"\n"} {`}`},{"\n"}{" "}
+                  <span className="text-blue-400">output</span>:{" "}
+                  <span className="text-yellow-400">"insights"</span>
+                  {"\n"}
+                  {`}`}
+                </pre>
+              </div>
+              {/* Glow */}
+              <div className="absolute -inset-4 bg-indigo-500/10 rounded-2xl blur-2xl -z-10" />
+            </div>
+          </div>
         </div>
       </div>
     </section>

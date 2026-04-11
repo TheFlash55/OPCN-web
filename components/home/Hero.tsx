@@ -4,7 +4,14 @@ import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowRight, Building2, Zap, Database } from "lucide-react";
+import {
+  ArrowRight,
+  Play,
+  Github,
+  Sparkles,
+  Terminal,
+  ChevronRight,
+} from "lucide-react";
 import { useUIStore } from "@/store/ui";
 
 export function Hero() {
@@ -14,174 +21,171 @@ export function Hero() {
 
   const content = isZh
     ? {
-        badge: "企业级智能数据基础设施",
-        title: "企业级数据智能，",
-        titleHighlight: "重塑商业决策力",
+        badge: "智能数据基础设施",
+        title: "企业级数据智能",
+        titleHighlight: "重塑商业决策",
         subtitle:
-          "DNN 为 OPC（一人公司）提供全链路数据智能解决方案，从采集到决策，驱动业务增长与政策研究",
-        ctaPrimary: "预约演示",
-        emailPlaceholder: "输入企业邮箱，预约专属演示",
-        trusted: "99.9% 系统可用性，企业级高可用架构",
-        stats: [
-          {
-            icon: Building2,
-            value: "50+",
-            label: "服务企业",
-            desc: "覆盖电商、金融、政务等多领域",
-          },
-          {
-            icon: Zap,
-            value: "<100ms",
-            label: "查询响应",
-            desc: "高性能实时数据处理能力",
-          },
-          {
-            icon: Database,
-            value: "10+",
-            label: "数据类型支持",
-            desc: "结构化与非结构化数据全覆盖",
-          },
-        ],
+          "为 OPC（一人公司）提供全链路数据智能解决方案，从采集到决策，驱动业务增长",
+        ctaPrimary: "立即开始",
+        ctaSecondary: "浏览市场",
+        ctaGhost: "查看文档",
+        placeholder: "输入邮箱开始",
+        codeLabel: "快速接入",
+        code: `curl -X POST https://api.opcn.ai/v1/agents \\
+  -H "Authorization: Bearer YOUR_TOKEN" \\
+  -d '{"name": "My Agent"}'`,
       }
     : {
-        badge: "Enterprise-Grade Data Infrastructure",
-        title: "Enterprise Data Intelligence, ",
-        titleHighlight: "Reshaping Business Decisions",
+        badge: "Data Infrastructure",
+        title: "Enterprise Data Intelligence",
+        titleHighlight: "Reshaping Decisions",
         subtitle:
-          "DNN provides end-to-end data intelligence solutions for OPCs, from collection to decision-making, driving business growth and policy research",
-        ctaPrimary: "Book Demo",
-        emailPlaceholder: "Enter business email to book demo",
-        trusted: "99.9% System Uptime, Enterprise-Grade High Availability",
-        stats: [
-          {
-            icon: Building2,
-            value: "50+",
-            label: "Enterprise Clients",
-            desc: "Covering e-commerce, finance, government",
-          },
-          {
-            icon: Zap,
-            value: "<100ms",
-            label: "Query Response",
-            desc: "High-performance real-time processing",
-          },
-          {
-            icon: Database,
-            value: "10+",
-            label: "Data Types",
-            desc: "Full coverage of structured & unstructured data",
-          },
-        ],
+          "End-to-end data intelligence solutions for OPCs, from collection to decision-making",
+        ctaPrimary: "Get Started",
+        ctaSecondary: "Browse Market",
+        ctaGhost: "View Docs",
+        placeholder: "Enter email to start",
+        codeLabel: "Quick Start",
+        code: `curl -X POST https://api.opcn.ai/v1/agents \\
+  -H "Authorization: Bearer YOUR_TOKEN" \\
+  -d '{"name": "My Agent"}'`,
       };
 
   return (
-    <section className="relative overflow-hidden bg-[#0a1628]">
-      {/* Tech Grid Background */}
+    <section className="relative min-h-screen overflow-hidden bg-[#0a0a0f]">
+      {/* Gradient Background */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(99,102,241,0.3),transparent)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_80%_80%,rgba(139,92,246,0.15),transparent)]" />
+
+      {/* Grid Pattern */}
       <div
-        className="absolute inset-0 opacity-[0.08]"
+        className="absolute inset-0 opacity-[0.03]"
         style={{
-          backgroundImage: `
-            linear-gradient(to right, #1e40af 1px, transparent 1px),
-            linear-gradient(to bottom, #1e40af 1px, transparent 1px)
-          `,
-          backgroundSize: "80px 80px",
+          backgroundImage: `linear-gradient(rgba(255,255,255,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.1) 1px,transparent 1px)`,
+          backgroundSize: "60px 60px",
         }}
       />
 
-      {/* Subtle radial gradient overlay */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center_top,_rgba(30,64,175,0.15),transparent_60%)]" />
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-24 pb-16">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Left Content */}
+          <div className="text-center lg:text-left">
+            {/* Badge */}
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-4 py-1.5 text-sm text-indigo-300">
+              <Sparkles className="h-4 w-4" />
+              {content.badge}
+              <span className="ml-1 text-indigo-400">→</span>
+            </div>
 
-      {/* Horizontal accent lines */}
-      <div className="absolute top-1/4 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#1e40af]/30 to-transparent" />
-      <div className="absolute top-3/4 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#1e40af]/20 to-transparent" />
+            {/* Title */}
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.1]">
+              {content.title}
+              <br />
+              <span className="bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent">
+                {content.titleHighlight}
+              </span>
+            </h1>
 
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 lg:pt-24 pb-16 sm:pb-20">
-        <div className="text-center">
-          {/* Badge */}
-          <div className="mb-6 sm:mb-8 inline-flex items-center gap-2 rounded-full border border-[#1e40af]/40 bg-[#1e40af]/10 px-4 sm:px-5 py-2 text-xs sm:text-sm font-medium text-blue-300 backdrop-blur">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-            </span>
-            {content.badge}
-          </div>
+            {/* Subtitle */}
+            <p className="mt-6 text-lg text-zinc-400 leading-relaxed max-w-xl mx-auto lg:mx-0">
+              {content.subtitle}
+            </p>
 
-          {/* Title */}
-          <h1 className="mx-auto max-w-5xl text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white">
-            {content.title}
-            <br className="hidden sm:block" />
-            <span className="text-[#3b82f6]">{content.titleHighlight}</span>
-          </h1>
-
-          {/* Subtitle */}
-          <p className="mx-auto mt-4 sm:mt-6 max-w-3xl text-base sm:text-lg font-medium text-slate-300 leading-relaxed px-4 sm:px-0">
-            {content.subtitle}
-          </p>
-
-          {/* Email CTA */}
-          <div className="mx-auto mt-8 sm:mt-12 max-w-xl px-4 sm:px-0">
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-              <Input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder={content.emailPlaceholder}
-                className="h-12 sm:h-14 border-slate-600/50 bg-slate-800/50 text-white placeholder:text-slate-500 focus-visible:border-[#3b82f6] focus-visible:ring-[#3b82f6]/20 rounded-lg"
-              />
+            {/* CTA Buttons - Triple Layout */}
+            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3">
               <Button
                 asChild
                 size="lg"
-                className="h-12 sm:h-14 px-6 sm:px-8 bg-[#1e40af] hover:bg-[#1e3a8a] text-white font-semibold rounded-lg whitespace-nowrap"
+                className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 h-11 rounded-lg group"
               >
                 <Link href="/onboarding">
                   {content.ctaPrimary}
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
+                className="border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white px-6 h-11 rounded-lg"
+              >
+                <Link href="/market">{content.ctaSecondary}</Link>
+              </Button>
+              <Button
+                asChild
+                variant="ghost"
+                size="lg"
+                className="text-zinc-500 hover:text-zinc-300 px-6 h-11 rounded-lg hidden sm:flex"
+              >
+                <Link href="/services" className="flex items-center gap-2">
+                  <Github className="h-4 w-4" />
+                  {content.ctaGhost}
                 </Link>
               </Button>
             </div>
+
+            {/* Email Input */}
+            <div className="mt-8 max-w-md mx-auto lg:mx-0">
+              <div className="flex gap-2">
+                <Input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder={content.placeholder}
+                  className="h-11 bg-zinc-900/50 border-zinc-700 text-white placeholder:text-zinc-600 focus:border-indigo-500 focus:ring-indigo-500/20 rounded-lg"
+                />
+                <Button className="h-11 px-4 bg-zinc-800 hover:bg-zinc-700 text-white rounded-lg shrink-0">
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
           </div>
 
-          {/* Trust Badge */}
-          <p className="mt-6 sm:mt-8 text-xs sm:text-sm font-medium text-slate-400">
-            {content.trusted}
-          </p>
-
-          {/* Stats Section - Data Driven Value */}
-          <div className="mt-12 sm:mt-16 lg:mt-20">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 max-w-4xl mx-auto">
-              {content.stats.map((stat, idx) => (
-                <div
-                  key={idx}
-                  className="group relative rounded-xl border border-slate-700/50 bg-slate-800/30 p-5 sm:p-6 backdrop-blur-sm hover:border-[#1e40af]/50 hover:bg-slate-800/50 transition-all duration-300"
-                >
-                  {/* Accent corner */}
-                  <div className="absolute top-0 right-0 w-12 h-12 overflow-hidden rounded-tr-xl">
-                    <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-[#1e40af]/20 to-transparent transform rotate-45 translate-x-8 -translate-y-8" />
-                  </div>
-
-                  <div className="flex flex-col items-center text-center">
-                    <div className="mb-3 inline-flex items-center justify-center rounded-lg bg-[#1e40af]/10 p-2.5 sm:p-3">
-                      <stat.icon className="h-5 w-5 sm:h-6 sm:w-6 text-[#3b82f6]" />
-                    </div>
-                    <div className="text-2xl sm:text-3xl font-bold text-white mb-1">
-                      {stat.value}
-                    </div>
-                    <div className="text-sm font-semibold text-slate-300 mb-1">
-                      {stat.label}
-                    </div>
-                    <div className="text-xs text-slate-500 leading-relaxed">
-                      {stat.desc}
-                    </div>
-                  </div>
+          {/* Right Content - Code Block */}
+          <div className="relative">
+            <div className="relative rounded-xl bg-zinc-900/80 border border-zinc-800 overflow-hidden">
+              {/* Code Header */}
+              <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-800 bg-zinc-900/50">
+                <div className="flex items-center gap-2">
+                  <Terminal className="h-4 w-4 text-zinc-500" />
+                  <span className="text-xs text-zinc-500 font-mono">
+                    {content.codeLabel}
+                  </span>
                 </div>
-              ))}
+                <div className="flex gap-1.5">
+                  <div className="w-3 h-3 rounded-full bg-zinc-700" />
+                  <div className="w-3 h-3 rounded-full bg-zinc-700" />
+                  <div className="w-3 h-3 rounded-full bg-zinc-700" />
+                </div>
+              </div>
+              {/* Code Content */}
+              <div className="p-4 overflow-x-auto">
+                <pre className="text-sm font-mono text-zinc-300 leading-relaxed">
+                  <code>{content.code}</code>
+                </pre>
+              </div>
+              {/* Glow Effect */}
+              <div className="absolute -inset-px bg-gradient-to-r from-indigo-500/20 to-violet-500/20 rounded-xl blur-sm -z-10" />
+            </div>
+
+            {/* Floating Stats Cards */}
+            <div className="absolute -bottom-4 -right-4 bg-zinc-900/90 border border-zinc-800 rounded-lg p-3 shadow-xl hidden lg:block">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center">
+                  <span className="text-indigo-400 text-xs font-bold">50+</span>
+                </div>
+                <div>
+                  <p className="text-xs text-zinc-400">Agents</p>
+                  <p className="text-sm text-white font-medium">Active</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 sm:h-32 bg-gradient-to-t from-background to-transparent" />
+      {/* Bottom Fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0a0a0f] to-transparent" />
     </section>
   );
 }

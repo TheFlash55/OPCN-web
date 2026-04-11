@@ -58,7 +58,7 @@ export default function ContactPage() {
             {
               icon: Calendar,
               title: "灵活预约",
-              desc: "支持工作日晚上及周末沟通，配合OPC时间",
+              desc: "支持工作日晚上及周末沟通，配合您的时间",
             },
           ],
         },
@@ -98,67 +98,62 @@ export default function ContactPage() {
               a: "根据数据量、采集频率、处理复杂度定价。基础套餐 ¥999/月起，支持按需定制。",
             },
             {
+              q: "项目周期一般多长？",
+              a: "简单项目1-2周交付，复杂系统4-8周。我们会在需求沟通后提供详细排期。",
+            },
+            {
               q: "数据安全如何保障？",
-              a: "我们仅采集公开数据，所有数据加密存储，签署保密协议，支持私有化部署。",
-            },
-            {
-              q: "多久能看到效果？",
-              a: "简单监控任务3-5天上线，完整报告系统1-2周交付，首月即可看到数据价值。",
-            },
-            {
-              q: "是否支持技术交接？",
-              a: "支持！我们交付的不仅是数据，还包括代码、文档和培训，让您掌握方法论。",
+              a: "签署NDA，数据加密存储，访问权限控制。合规采集，不涉及个人隐私数据。",
             },
           ],
         },
       }
     : {
         title: "Contact Us",
-        subtitle:
-          "Looking forward to working with you. Let's drive business growth with data.",
+        subtitle: "Looking forward to working with you",
         responseTime: {
-          title: "Response Time Promise",
+          title: "Response Time",
           items: [
             {
               icon: Clock,
-              title: "Reply within 24h",
-              desc: "Weekday inquiries receive response within 24 hours",
+              title: "24h Response",
+              desc: "We respond within 24 hours on business days",
             },
             {
               icon: MessageSquare,
-              title: "Free Needs Assessment",
-              desc: "First consultation free, help clarify your data requirements",
+              title: "Free Consultation",
+              desc: "First consultation is free to clarify your needs",
             },
             {
               icon: Calendar,
-              title: "Flexible Scheduling",
-              desc: "Available evenings and weekends to fit OPC schedules",
+              title: "Flexible Schedule",
+              desc: "Available evenings and weekends",
             },
           ],
         },
         contact: {
-          title: "Contact Information",
+          title: "Contact Info",
           email: {
             title: "Email",
             value: "hello@opcn.ai",
-            desc: "Preferred contact method, inquiries always welcome",
+            desc: "Preferred contact method",
           },
           wechat: {
             title: "WeChat",
             value: "OPCN_Data",
-            desc: "Please mention 'Data Service Inquiry' when adding",
+            desc: "Add with note 'Data Service Inquiry'",
           },
           phone: {
             title: "Phone",
             value: "+86 138-0000-0000",
-            desc: "Available weekdays 10:00-19:00",
+            desc: "Available 10:00-19:00 weekdays",
           },
         },
         form: {
           title: "Quick Message",
           name: "Your Name",
-          email: "Email Address",
-          company: "Company/Business Name (Optional)",
+          email: "Email",
+          company: "Company/Business (optional)",
           message: "Describe your data needs...",
           submit: "Send Message",
           submitting: "Sending...",
@@ -169,19 +164,15 @@ export default function ContactPage() {
           items: [
             {
               q: "How is pricing calculated?",
-              a: "Based on data volume, collection frequency, and processing complexity. Basic plans from $149/month, custom solutions available.",
+              a: "Based on data volume, collection frequency, and processing complexity. Starting from $149/month.",
+            },
+            {
+              q: "How long do projects take?",
+              a: "Simple projects: 1-2 weeks. Complex systems: 4-8 weeks. Detailed timeline after requirements discussion.",
             },
             {
               q: "How is data security ensured?",
-              a: "We only collect public data, encrypt all storage, sign NDAs, and support private deployment.",
-            },
-            {
-              q: "How soon can I see results?",
-              a: "Simple monitoring tasks go live in 3-5 days, full reporting systems in 1-2 weeks. Value is visible in the first month.",
-            },
-            {
-              q: "Do you provide tech handover?",
-              a: "Yes! We deliver not just data but also code, documentation, and training so you own the methodology.",
+              a: "NDA signing, encrypted storage, access control. Compliant collection, no personal privacy data.",
             },
           ],
         },
@@ -189,157 +180,70 @@ export default function ContactPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
     setSubmitted(true);
     toast(content.form.success);
   };
 
   return (
-    <div className="space-y-8">
-      {/* Hero */}
+    <div className="space-y-8 min-h-screen">
       <section className="text-center space-y-4 py-8">
-        <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
+        <h1 className="text-3xl sm:text-4xl font-bold text-white">
           {content.title}
         </h1>
-        <p className="max-w-2xl mx-auto text-muted-foreground text-lg">
-          {content.subtitle}
-        </p>
+        <p className="text-zinc-400 max-w-2xl mx-auto">{content.subtitle}</p>
       </section>
 
-      <div className="grid gap-8 lg:grid-cols-2">
-        {/* Left Column - Contact Info & Form */}
-        <div className="space-y-6">
-          {/* Response Time Promise */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Clock className="h-5 w-5 text-primary" />
-                {content.responseTime.title}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {content.responseTime.items.map((item, idx) => (
-                  <div key={idx} className="flex items-start gap-3">
-                    <div className="p-1.5 rounded-md bg-primary/10">
-                      <item.icon className="h-4 w-4 text-primary" />
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-sm">{item.title}</h4>
-                      <p className="text-sm text-muted-foreground">
-                        {item.desc}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Contact Methods */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Mail className="h-5 w-5 text-primary" />
-                {content.contact.title}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/30">
-                <Mail className="h-5 w-5 text-primary mt-0.5" />
-                <div>
-                  <h4 className="font-medium text-sm">
-                    {content.contact.email.title}
-                  </h4>
-                  <p className="text-primary font-mono">
-                    {content.contact.email.value}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    {content.contact.email.desc}
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/30">
-                <MessageSquare className="h-5 w-5 text-green-500 mt-0.5" />
-                <div>
-                  <h4 className="font-medium text-sm">
-                    {content.contact.wechat.title}
-                  </h4>
-                  <p className="font-mono">{content.contact.wechat.value}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {content.contact.wechat.desc}
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/30">
-                <Phone className="h-5 w-5 text-blue-500 mt-0.5" />
-                <div>
-                  <h4 className="font-medium text-sm">
-                    {content.contact.phone.title}
-                  </h4>
-                  <p className="font-mono">{content.contact.phone.value}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {content.contact.phone.desc}
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Right Column - Contact Form */}
-        <Card>
+      <div className="grid gap-6 lg:grid-cols-3">
+        <Card className="lg:col-span-2 bg-zinc-900/50 border-zinc-800/50">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Send className="h-5 w-5 text-primary" />
-              {content.form.title}
-            </CardTitle>
+            <CardTitle className="text-white">{content.form.title}</CardTitle>
           </CardHeader>
           <CardContent>
             {submitted ? (
-              <div className="text-center py-12">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-500/10 mb-4">
-                  <CheckCircle2 className="h-8 w-8 text-green-500" />
+              <div className="flex flex-col items-center justify-center py-12 text-center">
+                <div className="rounded-full bg-green-500/10 p-4 mb-4">
+                  <CheckCircle2 className="h-8 w-8 text-green-400" />
                 </div>
-                <h3 className="text-lg font-semibold mb-2">
-                  {content.form.success}
+                <h3 className="text-lg font-semibold text-white mb-2">
+                  {isZh ? "感谢您的留言" : "Thank You"}
                 </h3>
-                <p className="text-sm text-muted-foreground">
-                  {isZh ? "我们会尽快与您联系" : "We'll contact you soon"}
-                </p>
+                <p className="text-zinc-400">{content.form.success}</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <label className="text-sm font-medium mb-1.5 block">
-                    {content.form.name}
-                  </label>
-                  <Input
-                    required
-                    value={formData.name}
-                    onChange={(e) =>
-                      setFormData({ ...formData, name: e.target.value })
-                    }
-                    placeholder={isZh ? "您的称呼" : "Your name"}
-                  />
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-zinc-300">
+                      {content.form.name}
+                    </label>
+                    <Input
+                      required
+                      value={formData.name}
+                      onChange={(e) =>
+                        setFormData({ ...formData, name: e.target.value })
+                      }
+                      placeholder="John Doe"
+                      className="bg-zinc-800/50 border-zinc-700 text-white placeholder:text-zinc-500"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-zinc-300">
+                      {content.form.email}
+                    </label>
+                    <Input
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) =>
+                        setFormData({ ...formData, email: e.target.value })
+                      }
+                      placeholder="john@example.com"
+                      className="bg-zinc-800/50 border-zinc-700 text-white placeholder:text-zinc-500"
+                    />
+                  </div>
                 </div>
-                <div>
-                  <label className="text-sm font-medium mb-1.5 block">
-                    {content.form.email}
-                  </label>
-                  <Input
-                    required
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) =>
-                      setFormData({ ...formData, email: e.target.value })
-                    }
-                    placeholder="email@example.com"
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium mb-1.5 block">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-zinc-300">
                     {content.form.company}
                   </label>
                   <Input
@@ -347,27 +251,27 @@ export default function ContactPage() {
                     onChange={(e) =>
                       setFormData({ ...formData, company: e.target.value })
                     }
-                    placeholder={
-                      isZh ? "您的公司或业务" : "Your company or business"
-                    }
+                    className="bg-zinc-800/50 border-zinc-700 text-white placeholder:text-zinc-500"
                   />
                 </div>
-                <div>
-                  <label className="text-sm font-medium mb-1.5 block">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-zinc-300">
                     {content.form.message}
                   </label>
                   <textarea
                     required
-                    rows={4}
                     value={formData.message}
                     onChange={(e) =>
                       setFormData({ ...formData, message: e.target.value })
                     }
-                    placeholder={content.form.message}
-                    className="w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                    rows={5}
+                    className="w-full rounded-md bg-zinc-800/50 border border-zinc-700 text-white placeholder:text-zinc-500 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 </div>
-                <Button type="submit" className="w-full">
+                <Button
+                  type="submit"
+                  className="w-full bg-indigo-600 hover:bg-indigo-500 text-white"
+                >
                   <Send className="mr-2 h-4 w-4" />
                   {content.form.submit}
                 </Button>
@@ -375,19 +279,106 @@ export default function ContactPage() {
             )}
           </CardContent>
         </Card>
+
+        <div className="space-y-6">
+          <Card className="bg-zinc-900/50 border-zinc-800/50">
+            <CardHeader>
+              <CardTitle className="text-white text-base">
+                {content.contact.title}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-start gap-3">
+                <div className="rounded-lg bg-indigo-500/10 p-2">
+                  <Mail className="h-4 w-4 text-indigo-400" />
+                </div>
+                <div>
+                  <div className="font-medium text-white text-sm">
+                    {content.contact.email.title}
+                  </div>
+                  <div className="text-indigo-400">
+                    {content.contact.email.value}
+                  </div>
+                  <div className="text-xs text-zinc-400">
+                    {content.contact.email.desc}
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="rounded-lg bg-green-500/10 p-2">
+                  <MessageSquare className="h-4 w-4 text-green-400" />
+                </div>
+                <div>
+                  <div className="font-medium text-white text-sm">
+                    {content.contact.wechat.title}
+                  </div>
+                  <div className="text-green-400">
+                    {content.contact.wechat.value}
+                  </div>
+                  <div className="text-xs text-zinc-400">
+                    {content.contact.wechat.desc}
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="rounded-lg bg-blue-500/10 p-2">
+                  <Phone className="h-4 w-4 text-blue-400" />
+                </div>
+                <div>
+                  <div className="font-medium text-white text-sm">
+                    {content.contact.phone.title}
+                  </div>
+                  <div className="text-blue-400">
+                    {content.contact.phone.value}
+                  </div>
+                  <div className="text-xs text-zinc-400">
+                    {content.contact.phone.desc}
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-zinc-900/50 border-zinc-800/50">
+            <CardHeader>
+              <CardTitle className="text-white text-base">
+                {content.responseTime.title}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {content.responseTime.items.map((item, idx) => (
+                <div key={idx} className="flex items-start gap-3">
+                  <div className="rounded-lg bg-indigo-500/10 p-2">
+                    <item.icon className="h-4 w-4 text-indigo-400" />
+                  </div>
+                  <div>
+                    <div className="font-medium text-white text-sm">
+                      {item.title}
+                    </div>
+                    <div className="text-xs text-zinc-400">{item.desc}</div>
+                  </div>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        </div>
       </div>
 
-      {/* FAQ */}
-      <Card>
+      <Card className="bg-zinc-900/50 border-zinc-800/50">
         <CardHeader>
-          <CardTitle>{content.faq.title}</CardTitle>
+          <CardTitle className="text-white">{content.faq.title}</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-4 md:grid-cols-3">
             {content.faq.items.map((item, idx) => (
-              <div key={idx} className="p-4 rounded-lg border border-border/50">
-                <h4 className="font-medium text-sm mb-2">{item.q}</h4>
-                <p className="text-sm text-muted-foreground">{item.a}</p>
+              <div
+                key={idx}
+                className="rounded-lg bg-zinc-800/50 p-4 border border-zinc-700/50"
+              >
+                <h4 className="font-medium text-white text-sm mb-2">
+                  {item.q}
+                </h4>
+                <p className="text-sm text-zinc-400">{item.a}</p>
               </div>
             ))}
           </div>

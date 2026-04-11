@@ -1,53 +1,54 @@
 "use client";
 
-import { Quote } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Quote, Star } from "lucide-react";
 import { useUIStore } from "@/store/ui";
 
 const testimonialsZh = [
   {
-    quote:
-      "以前每天早上花2小时查竞品价格，现在只需要看一眼手机推送。效率提升了90%，还能第一时间跟进促销。",
-    author: "张先生",
-    role: "跨境电商OPC创始人",
-    avatar: "Z",
+    name: "张明",
+    role: "电商创业者",
+    content:
+      "OPCN 的竞品监控帮我节省了大量时间，现在我能实时掌握市场动态，及时调整定价策略。",
+    rating: 5,
   },
   {
-    quote:
-      "作为一人公司，我没有技术团队。OPCN帮我在一周内搭建了政策监控系统，现在我能比同行早3天知道行业变化。",
-    author: "李女士",
-    role: "咨询公司创始人",
-    avatar: "L",
+    name: "李婷",
+    role: "政策研究员",
+    content:
+      "政策追踪功能非常精准，第一时间获取行业政策变化，让我们的研究工作更加高效。",
+    rating: 5,
   },
   {
-    quote:
-      "数据报告的质量超出预期，不仅有数据，还有洞察和建议。直接用在客户提案里，非常专业。",
-    author: "王先生",
-    role: "市场研究顾问",
-    avatar: "W",
+    name: "王浩",
+    role: "数据分析师",
+    content:
+      "数据处理能力很强，从采集到洞察报告输出，整个流程非常顺畅，准确率也很高。",
+    rating: 5,
   },
 ];
 
 const testimonialsEn = [
   {
-    quote:
-      "Used to spend 2 hours every morning checking competitor prices. Now just glance at phone notifications. 90% efficiency boost.",
-    author: "Mr. Zhang",
-    role: "Cross-border E-commerce OPC",
-    avatar: "Z",
+    name: "John Chen",
+    role: "E-commerce Founder",
+    content:
+      "OPCN's competitor monitoring saves me tons of time. Now I can track market dynamics in real-time.",
+    rating: 5,
   },
   {
-    quote:
-      "As a one-person company, I don't have a tech team. OPCN built my policy monitoring system in a week. Now I'm 3 days ahead of competitors.",
-    author: "Ms. Li",
-    role: "Consulting Firm Founder",
-    avatar: "L",
+    name: "Sarah Li",
+    role: "Policy Researcher",
+    content:
+      "Policy tracking is incredibly accurate. We get industry policy changes instantly, making our research much more efficient.",
+    rating: 5,
   },
   {
-    quote:
-      "The data reports exceeded expectations—not just data, but insights and recommendations. Used directly in client proposals.",
-    author: "Mr. Wang",
-    role: "Market Research Consultant",
-    avatar: "W",
+    name: "Mike Wang",
+    role: "Data Analyst",
+    content:
+      "Strong data processing capabilities. From collection to insights, the entire workflow is smooth and accurate.",
+    rating: 5,
   },
 ];
 
@@ -58,45 +59,92 @@ export function Testimonials() {
 
   const content = isZh
     ? {
-        title: "客户怎么说",
-        subtitle: "来自真实OPC的反馈",
+        title: "客户评价",
+        subtitle: "来自真实用户的反馈",
       }
     : {
-        title: "What Our Clients Say",
-        subtitle: "Feedback from real OPCs",
+        title: "What Our Users Say",
+        subtitle: "Feedback from real users",
       };
 
   return (
-    <section className="py-24 bg-slate-950">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className="py-24 bg-[#0a0a0f] relative overflow-hidden">
+      {/* Background Gradient */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_50%_at_50%_50%,rgba(99,102,241,0.08),transparent)]" />
+
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-white sm:text-4xl">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
             {content.title}
           </h2>
-          <p className="mt-4 text-lg text-slate-400">{content.subtitle}</p>
+          <p className="mt-4 text-lg text-zinc-400">{content.subtitle}</p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
+        {/* Testimonials Grid */}
+        <div className="grid md:grid-cols-3 gap-6">
           {testimonials.map((item, idx) => (
-            <div
+            <Card
               key={idx}
-              className="relative rounded-2xl border border-slate-800 bg-slate-900/50 p-8"
+              className="bg-zinc-900/50 border-zinc-800 hover:border-indigo-500/30 transition-all duration-300 group"
             >
-              <Quote className="absolute top-6 right-6 h-8 w-8 text-primary/20" />
-              <p className="text-slate-300 mb-6 leading-relaxed">
-                &ldquo;{item.quote}&rdquo;
-              </p>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
-                  {item.avatar}
+              <CardContent className="p-6">
+                {/* Quote Icon */}
+                <div className="mb-4">
+                  <Quote className="h-8 w-8 text-indigo-500/30" />
                 </div>
-                <div>
-                  <div className="font-medium text-white">{item.author}</div>
-                  <div className="text-sm text-slate-500">{item.role}</div>
+
+                {/* Rating */}
+                <div className="flex gap-1 mb-4">
+                  {Array.from({ length: item.rating }).map((_, i) => (
+                    <Star
+                      key={i}
+                      className="h-4 w-4 fill-yellow-500 text-yellow-500"
+                    />
+                  ))}
                 </div>
-              </div>
-            </div>
+
+                {/* Content */}
+                <p className="text-zinc-300 leading-relaxed mb-6">
+                  "{item.content}"
+                </p>
+
+                {/* Author */}
+                <div className="flex items-center gap-3 pt-4 border-t border-zinc-800">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center text-white font-semibold text-sm">
+                    {item.name[0]}
+                  </div>
+                  <div>
+                    <div className="font-medium text-white">{item.name}</div>
+                    <div className="text-sm text-zinc-500">{item.role}</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           ))}
+        </div>
+
+        {/* Trust Logos */}
+        <div className="mt-20 pt-12 border-t border-zinc-800">
+          <p className="text-center text-sm text-zinc-500 mb-8">
+            {isZh ? "受到以下企业信赖" : "Trusted by leading companies"}
+          </p>
+          <div className="flex flex-wrap justify-center items-center gap-8 opacity-50">
+            {[
+              "Enterprise A",
+              "Enterprise B",
+              "Enterprise C",
+              "Enterprise D",
+              "Enterprise E",
+            ].map((name, idx) => (
+              <div
+                key={idx}
+                className="text-zinc-600 font-semibold text-lg tracking-wider"
+              >
+                {name}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
